@@ -1,0 +1,59 @@
+package test;
+
+
+import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+public class pic  {
+
+	//allows the resizing of all picture files 
+    public static void image() throws IOException {
+    	
+    	//when you open the search for photo window you will find look for the file 
+    	MyEditor a = new MyEditor();
+    	 JFileChooser chooser = new JFileChooser();
+         FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                 "JPG & GIF Images", "jpg", "gif");
+         chooser.setFileFilter(filter);
+         int returnVal = chooser.showOpenDialog(null);
+         if(returnVal == JFileChooser.APPROVE_OPTION) {
+             System.out.println("You chose to open this file: " +
+                     chooser.getSelectedFile().getName());
+         
+     //this will read the selected file 
+        File input = new File(chooser.getSelectedFile().getAbsolutePath());
+        BufferedImage image = ImageIO.read(input);
+        
+        
+        //this gets the new image that is resized names it and saves it where the original was 
+        BufferedImage resized = resize(image, a.hightimg, a.widthimg);
+        String path = chooser.getSelectedFile().getParent();
+        File output = new File(path+"\\"+"Re-Sized"+a.imgwidth.getText()+"x"+a.imghight.getText()+chooser.getSelectedFile().getName());
+        ImageIO.write(resized, "png", output);
+        
+        
+        //notifies user that the file is saved and tells them where it is 
+        JOptionPane.showMessageDialog(null, "Success! Image saved to Photos File! (Directory:" +path+")");
+        System.out.println("Sucess picture saved ");
+         }
+
+    }
+    
+    // this will obtain the photo dimension that the user input and will scale it  
+    private static BufferedImage resize(BufferedImage img, int height, int width) {
+        Image tmp = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        BufferedImage resized = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = resized.createGraphics();
+        g2d.drawImage(tmp, 0, 0, null);
+        g2d.dispose();
+        return resized;
+    }
+    
+}

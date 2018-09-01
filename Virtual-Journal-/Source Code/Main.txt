@@ -1,0 +1,706 @@
+/*---------------------------------------------------------------
+ * 					CREATED AND DEVELOPED BY EFINITY TREE
+ * 						ALL RIGHTS RESERVED   
+ * 							2018
+ * --------------------------------------------------------------
+ */
+
+
+package test;
+
+import java.awt.*;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+
+import javax.swing.*;
+import javax.swing.text.*;
+import javax.swing.border.*;
+import javax.swing.text.*;
+import javax.swing.undo.*;
+
+
+
+
+//import Actions.editpic.saveimage;
+
+import javax.swing.event.*;
+import javax.swing.text.DefaultEditorKit.*;
+import javax.swing.text.StyledEditorKit.*;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStream;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Vector;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.ObjectOutputStream;
+import java.io.IOException;
+import java.io.FileNotFoundException;
+public class t extends MyEditor  {
+	
+	//Vital Foundation of the Program
+	static JFrame frame = new JFrame("Choose A Journal");
+	static JPanel menupanel = new JPanel();
+	static JFrame jve = new JFrame("Journal Viewer");
+	
+	static JTextPane page1 = new JTextPane();
+
+	
+
+	//Buttons of the main functions
+	static JButton nxtpage = new JButton();
+	static JButton backpage = new JButton();
+	static JButton edit = new JButton();
+	static JButton save = new JButton();
+	static JButton minimize = new JButton();
+	static JButton maximize = new JButton();
+	static JButton special = new JButton();
+	static JButton exponent = new JButton();
+    static JButton bold = new JButton();
+    static JButton italic = new JButton();
+    static JButton underline = new JButton();
+    static JButton center = new JButton();
+    static JButton left = new JButton();
+    static JButton right = new JButton();
+	static JPanel pane = new JPanel();
+	static JButton fcolor = new JButton();
+	static JButton insertPictureButton = new JButton();
+	static JButton button;
+	static JButton editpicture = new JButton();
+	static JButton print = new JButton();
+	static JButton undo = new JButton();
+	static JButton redo = new JButton();
+	static JButton cut = new JButton();
+	static JButton copy = new JButton();
+	static JButton paste = new JButton();
+	static JButton scanner = new JButton();
+	static JButton settings = new JButton();
+
+	//Counter of number of time button is clicked
+	static int clicksnextpage = 1;
+	static int clicksprevpage;
+	
+	
+	//----------------------------------------------
+	
+	//Comobo boxes of the font styles 
+	static JComboBox fstyles = new JComboBox();
+	
+
+
+
+	//combo boxes of the font sizes
+    static JComboBox fsize = new JComboBox();
+    static String sitem;
+    static FontSizeAction size10= new StyledEditorKit.FontSizeAction( null, 10);
+    static FontSizeAction size12 = new StyledEditorKit.FontSizeAction( null, 12);
+    static FontSizeAction size14 = new StyledEditorKit.FontSizeAction( null, 14);
+    static FontSizeAction size18 = new StyledEditorKit.FontSizeAction( null, 18);
+    static FontSizeAction size24 = new StyledEditorKit.FontSizeAction( null, 24);
+    static FontSizeAction size30 = new StyledEditorKit.FontSizeAction( null, 30);
+    static FontSizeAction size36 = new StyledEditorKit.FontSizeAction( null, 36);
+    static FontSizeAction size48 = new StyledEditorKit.FontSizeAction( null, 48);
+    static FontSizeAction size60 = new StyledEditorKit.FontSizeAction( null, 60);
+    static FontSizeAction size72 = new StyledEditorKit.FontSizeAction( null, 72);
+    static FontSizeAction size96 = new StyledEditorKit.FontSizeAction( null, 96);
+    static String item;
+	static Integer szitem;
+    static ForegroundAction textcolor;
+
+    //allows for undoing 
+	static UndoManager mgr = new UndoManager();
+	
+	
+	static JButton journal = new JButton();
+	
+	//Green color 
+	static Color p1 ;//= new Color(67,158,76);
+	
+	//Grey color
+	static Color p2 = new Color(68,73,82);
+
+	//Text field where the directory is showed to the user on the first window
+	static JTextField dir = new JTextField();
+	
+
+
+	//shows the window to choose the journal you want to use 
+	public static void main(String[] args) throws IOException  {
+	    java.util.List<String> FONT_LIST = Arrays.asList(new String [] {"Arial", "Calibri", "Cambria", "Courier New", "Comic Sans MS", "Dialog", "Georgia", "Helevetica", "Lucida Sans", "Monospaced", "Tahoma", "Times New Roman", "Verdana"});
+		
+	    //changes the loof of the windows 
+		try { 
+		    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
+		
+		
+		//sets up and equips the first window the the utilities it needs 
+		frame.setVisible(true);
+		frame.setBounds(100, 100, 400, 200);
+		menupanel.setLayout(null);
+		frame.add(menupanel);
+		menupanel.add(journal);
+		Color mainMenuColor = new Color(67,158,76);
+		menupanel.setBackground(mainMenuColor);
+		
+		journal.setBounds(100, 30, 200, 20);
+		journal.setText("Locate The Journal Folder");
+		journal.addActionListener(new chooser());
+		
+	    dir.setBounds(75, 60, 250, 20);
+	   
+	    menupanel.add(dir);
+	    JButton b = new JButton();
+	    menupanel.add(b);
+	    b.setBounds(150, 80, 70, 70);
+	    b.setOpaque(false);
+	    b.setContentAreaFilled(false);
+	    b.setBorderPainted(false);
+
+	    b.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\go.png"));
+	    b.addActionListener(new journalview());
+	    System.out.println("Program successfully launched");
+	    JLabel version = new JLabel();
+	    menupanel.add(version);
+	    version.setText("Virtual Journal 3.0.0(Alpha)");
+		version.setBounds(235, 140, 150,20);
+		menupanel.add(settings);
+	    settings.setBounds(10, 120, 32, 32);
+		settings.addActionListener(new settings());
+		settings.setOpaque(false);
+	    settings.setContentAreaFilled(false);
+	    settings.setBorderPainted(false);
+
+	    settings.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\settings.png"));
+		try {
+			FileReader fr = new FileReader("C:\\Virtual Journal\\JVCOLOR.txt");
+			BufferedReader br = new BufferedReader(fr);
+			
+			String str;
+			while ((str = br.readLine())!=null) {
+				System.out.println("File read "+str);
+				switch(str) {
+				default:
+					p1 = new Color(67,158,76);
+					break;
+				case "BLUE":
+					p1 = new Color(108,190,228);
+					break;
+				case "GREEN":
+					p1 = new Color(67,158,76);
+					break;
+				case "RED":
+					p1 = new Color(178,52,71);
+					break;
+				case "YELLOW":
+					p1 = new Color(242,206,97);
+					break;
+				case "PINK":
+					p1 = new Color(255,62,125);
+					break;
+				case "BLACK":
+					p1 = new Color(0,0,0);
+					break;
+				}
+			}
+			br.close();
+		}catch(IOException e){
+			System.out.println("File Not Found!");
+		}
+		
+		
+		//next page functions 
+		nxtpage.addActionListener(new nextpage());
+		nxtpage.addActionListener(new SaveFileListener());
+		nxtpage.setOpaque(false);
+		 nxtpage.setBorderPainted(false);
+
+		   nxtpage.setContentAreaFilled(false);
+		   nxtpage.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\foward.png"));
+		
+		//prev page
+		backpage.addActionListener(new prevpage());
+		backpage.addActionListener(new SaveFileListener());
+
+		backpage.setOpaque(false);
+		 backpage.setBorderPainted(false);
+
+		   backpage.setContentAreaFilled(false);
+		   backpage.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\back.png"));
+		
+		//edit page
+		edit.addActionListener(new editj());
+		edit.setOpaque(false);
+		 edit.setBorderPainted(false);
+
+		   edit.setContentAreaFilled(false);
+		   edit.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\edit.png"));
+		//save page 
+		save.addActionListener(new savej());
+		save.setOpaque(false);
+		 save.setBorderPainted(false);
+
+		   save.setContentAreaFilled(false);
+		   save.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\save.png"));
+		
+		
+	    
+	    Vector<String> editorFonts = getEditorFonts();
+		editorFonts.add(0, "Font Style");
+		fstyles= new JComboBox<String>(editorFonts);
+		fstyles.setEditable(false);
+		fstyles.addItemListener(new FontFamilyItemListener());
+		
+		//font sizes
+		fsize.addItem(10);
+		fsize.addItem(12);
+		fsize.addItem(14);
+		fsize.addItem(18);
+		fsize.addItem(24);
+		fsize.addItem(30);
+		fsize.addItem(36);
+		fsize.addItem(48);
+		fsize.addItem(60);
+		fsize.addItem(72);
+		fsize.addItem(96);
+
+		fsize.addActionListener(new size());
+		 bold.addActionListener(new BoldAction());
+		 italic.addActionListener(new ItalicAction());
+		 underline.addActionListener(new UnderlineAction());
+		//bold 
+		bold.addActionListener(new editbuttons());
+		bold.addActionListener(new Bold());
+		 bold.setOpaque(false);
+		 bold.setBorderPainted(false);
+
+		   bold.setContentAreaFilled(false);
+		   bold.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\bold.png"));
+		//italics
+		italic.addActionListener(new editbuttons());
+		italic.addActionListener(new Italics());
+		 italic.setOpaque(false);
+		 italic.setBorderPainted(false);
+		    italic.setContentAreaFilled(false);
+		    italic.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\italic.png"));
+		//underline
+		underline.addActionListener(new editbuttons());
+		underline.addActionListener(new Underline());
+		 underline.setOpaque(false);
+		 underline.setBorderPainted(false);
+
+		    underline.setContentAreaFilled(false);
+		    underline.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\underline.png"));
+		//center text
+		center.addActionListener(new center());
+		 center.setOpaque(false);
+		 center.setBorderPainted(false);
+
+		   center.setContentAreaFilled(false);
+		   center.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\center.png"));
+		//left text
+		left.addActionListener(new left());
+		 left.setOpaque(false);
+		 left.setBorderPainted(false);
+
+		   left.setContentAreaFilled(false);
+		   left.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\left.png"));
+		//right text
+		right.addActionListener(new right());
+		 right.setOpaque(false);
+		 right.setBorderPainted(false);
+
+		   right.setContentAreaFilled(false);
+		   right.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\right.png"));
+		//font color 
+		fcolor.addActionListener(new fontcolor());
+		 fcolor.setOpaque(false);
+		 fcolor.setBorderPainted(false);
+
+		   fcolor.setContentAreaFilled(false);
+		   fcolor.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\color.png"));
+		
+		//add picture 
+		 insertPictureButton.addActionListener(new PictureInsertActionListener());
+		 	insertPictureButton.setOpaque(false);
+		 	insertPictureButton.setBorderPainted(false);
+
+		   insertPictureButton.setContentAreaFilled(false);
+		   insertPictureButton.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\image.png"));
+		   
+		 
+		 
+		 
+		 
+		 //editpicture 
+		 editpicture.addActionListener(new editpic());
+		 editpicture.setOpaque(false);
+		 editpicture.setBorderPainted(false);
+		   editpicture.setContentAreaFilled(false);
+		   editpicture.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\photo.png"));
+		 
+		 //saves new image 
+		 saveimagebutton.addActionListener(new saveimage());
+		 
+		 //prints page 
+		 print.addActionListener(new printPage());
+			
+		 
+		 
+		getEditorDocument().addUndoableEditListener(new UndoEditListener());
+			
+		 //undo 
+		 undo.addActionListener(new UndoActionListener("UNDO"));
+		 //page1.getDocument().addUndoableEditListener(new UndoEditListener());
+		 undo.setOpaque(false);
+		 undo.setBorderPainted(false);
+
+		   undo.setContentAreaFilled(false);
+		   undo.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\undo.png"));
+		 
+		 //redo 
+		 redo.addActionListener(new UndoActionListener("REDO"));
+		 redo.setOpaque(false);
+		 redo.setBorderPainted(false);
+
+		   redo.setContentAreaFilled(false);
+		   redo.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\redo.png"));
+		 //saves the file that page1 is currently displaying 
+		 save.addActionListener(new SaveFileListener());
+		 
+		 
+		 jve.setResizable(false);
+		 	//minimize the screen
+		 	minimize.addActionListener(new minimizescreen());
+		 	minimize.setOpaque(false);
+			minimize.setBorderPainted(false);
+			   minimize.setContentAreaFilled(false);
+			   minimize.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\minimize.png"));
+		 	//maximize screen
+		 	maximize.addActionListener(new maximizescreen());
+		 	maximize.setOpaque(false);
+			 maximize.setBorderPainted(false);
+
+			   maximize.setContentAreaFilled(false);
+			   maximize.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\plus-sign.png"));
+		 	//adds the special characters
+		 	special.addActionListener(new specialCharacters());
+		 	special.setOpaque(false);
+			 special.setBorderPainted(false);
+
+			   special.setContentAreaFilled(false);
+			   special.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\omega.png"));
+		 	
+		 	//adds exponents
+		 	exponent.addActionListener(new exponents());
+		 	 exponent.setOpaque(false);
+			 exponent.setBorderPainted(false);
+
+			   exponent.setContentAreaFilled(false);
+			   exponent.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\exponent.png"));
+			   
+			   //cut
+			   cut.addActionListener(new DefaultEditorKit.CutAction());
+			   cut.setOpaque(false);
+				 cut.setBorderPainted(false);
+
+				   cut.setContentAreaFilled(false);
+				   cut.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\cut.png"));
+				   
+				   //paste
+				   paste.addActionListener(new DefaultEditorKit.PasteAction());
+				   paste.setOpaque(false);
+					 paste.setBorderPainted(false);
+
+					   paste.setContentAreaFilled(false);
+					   paste.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\paste.png"));
+					   
+					   //copy
+					   copy.addActionListener(new DefaultEditorKit.CopyAction());
+					   copy.setOpaque(false);
+						 copy.setBorderPainted(false);
+
+						   copy.setContentAreaFilled(false);
+						   copy.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\copy.png"));
+			   
+		 	scanner.addActionListener(new Scan());
+		 	scanner.setOpaque(false);
+			 scanner.setBorderPainted(false);
+
+			   scanner.setContentAreaFilled(false);
+			   scanner.setIcon(new ImageIcon("C:\\Virtual Journal\\Icons\\scanner.png"));
+		}
+	
+	
+	//returns every font that is in the list in order to display the name of the font
+	public static Vector<String> getEditorFonts() {
+		
+		String [] availableFonts =
+			GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+		Vector<String> returnList = new Vector<>();
+		for (String font : availableFonts) {
+	
+			
+
+				returnList.add(font);
+			
+		
+	
+	}
+		return returnList;
+	
+	}
+	
+	static class settings implements ActionListener{
+		public void actionPerformed (ActionEvent e) {
+			JFrame frame = new JFrame("Settings");
+			frame.setVisible(true);
+			frame.setBounds(0,0,500,400);
+			JPanel pane = new JPanel();
+			pane.setLayout(null);
+			frame.add(pane);
+			JLabel color = new JLabel("Set Color:");
+			pane.add(color);
+			color.setBounds(20, 0, 100, 100);
+			JLabel version = new JLabel("Virtual Journal 3.0.0(Alpha)");
+			version.setBounds(350, 340, 150, 20);
+			pane.add(version);
+			JLabel color1 = new JLabel("Blue");
+			pane.add(color1);
+			color1.setBounds(43, 60, 25, 25);
+			JLabel color2 = new JLabel("Green");
+			pane.add(color2);
+			color2.setBounds(43, 80, 50, 25);
+			JLabel color3 = new JLabel("Red");
+			pane.add(color3);
+			color3.setBounds(43, 100, 25, 25);
+			JLabel color4 = new JLabel("Yellow");
+			pane.add(color4);
+			color4.setBounds(103, 60, 50, 25);
+			JLabel color5 = new JLabel("Pink");
+			pane.add(color5);
+			color5.setBounds(103, 80, 25, 25);
+			JLabel color6 = new JLabel("Black");
+			pane.add(color6);
+			color6.setBounds(103, 100, 25, 25);
+			
+			JCheckBox blue = new JCheckBox();
+			pane.add(blue);
+			blue.setBounds(20, 60, 20, 20);
+			JCheckBox green = new JCheckBox();
+			pane.add(green);
+			green.setBounds(20, 80, 20, 20);
+			JCheckBox red = new JCheckBox();
+			pane.add(red);
+			red.setBounds(20, 100, 20, 20);
+			JCheckBox yellow = new JCheckBox();
+			pane.add(yellow);
+			yellow.setBounds(80, 60, 20, 20);
+			JCheckBox pink = new JCheckBox();
+			pane.add(pink);
+			pink.setBounds(80, 80, 20, 20);
+			JCheckBox black = new JCheckBox();
+			pane.add(black);
+			black.setBounds(80, 100, 20, 20);
+
+			
+			
+			blue.addActionListener(new ActionListener() {
+			    @Override
+			    public void actionPerformed(ActionEvent event) {
+			        JCheckBox blue = (JCheckBox) event.getSource();
+			        blue.setBounds(20, 60, 20, 20);
+			        if (blue.isSelected()) {
+						System.out.println("Background set to BLUE");
+						green.setSelected(false);
+						red.setSelected(false);
+						yellow.setSelected(false);
+						pink.setSelected(false);
+						black.setSelected(false);
+						JOptionPane.showMessageDialog(blue, "Please Close Out Of Program For Updates To Take Place");
+
+						try {
+							FileWriter fw = new FileWriter("C:\\Virtual Journal\\JVCOLOR.txt");
+							PrintWriter pw = new PrintWriter(fw);
+							
+							pw.println("BLUE");
+							pw.close();
+						}catch(IOException e) {
+							System.out.println("ERROR");
+						}
+
+			        } else {
+						System.out.println("Background set to NULL");
+
+			        }
+			    }
+			});
+			
+			green.addActionListener(new ActionListener() {
+			    @Override
+			    public void actionPerformed(ActionEvent event) {
+			        JCheckBox green = (JCheckBox) event.getSource();
+			        green.setBounds(20, 80, 20, 20);
+			        if (green.isSelected()) {
+						System.out.println("Background set to GREEN");
+						blue.setSelected(false);
+						red.setSelected(false);
+						yellow.setSelected(false);
+						pink.setSelected(false);
+						black.setSelected(false);
+						JOptionPane.showMessageDialog(green, "Please Close Out Of Program For Updates To Take Place");
+						try {
+							FileWriter fw = new FileWriter("C:\\Virtual Journal\\JVCOLOR.txt");
+							PrintWriter pw = new PrintWriter(fw);
+							
+							pw.println("GREEN");
+							pw.close();
+						}catch(IOException e) {
+							System.out.println("ERROR");
+						}
+
+			        } else {
+						System.out.println("Background set to NULL");
+
+			        }
+			    }
+			});
+			red.addActionListener(new ActionListener() {
+			    @Override
+			    public void actionPerformed(ActionEvent event) {
+			        JCheckBox red = (JCheckBox) event.getSource();
+			        red.setBounds(20, 100, 20, 20);
+			        if (red.isSelected()) {
+						System.out.println("Background set to RED");
+						green.setSelected(false);
+						blue.setSelected(false);
+						yellow.setSelected(false);
+						pink.setSelected(false);
+						black.setSelected(false);
+						JOptionPane.showMessageDialog(red, "Please Close Out Of Program For Updates To Take Place");
+
+						try {
+							FileWriter fw = new FileWriter("C:\\Virtual Journal\\JVCOLOR.txt");
+							PrintWriter pw = new PrintWriter(fw);
+							
+							pw.println("RED");
+							pw.close();
+						}catch(IOException e) {
+							System.out.println("ERROR");
+						}
+
+			        } else {
+						System.out.println("Background set to NULL");
+
+			        }
+			    }
+			});
+			yellow.addActionListener(new ActionListener() {
+			    @Override
+			    public void actionPerformed(ActionEvent event) {
+			        JCheckBox yellow = (JCheckBox) event.getSource();
+			        yellow.setBounds(80, 60, 20, 20);
+			        if (yellow.isSelected()) {
+						System.out.println("Background set to YELLOW");
+						green.setSelected(false);
+						red.setSelected(false);
+						blue.setSelected(false);
+						pink.setSelected(false);
+						black.setSelected(false);
+						JOptionPane.showMessageDialog(yellow, "Please Close Out Of Program For Updates To Take Place");
+
+						try {
+							FileWriter fw = new FileWriter("C:\\Virtual Journal\\JVCOLOR.txt");
+							PrintWriter pw = new PrintWriter(fw);
+							
+							pw.println("YELLOW");
+							pw.close();
+						}catch(IOException e) {
+							System.out.println("ERROR");
+						}
+
+			        } else {
+						System.out.println("Background set to NULL");
+
+			        }
+			    }
+			});
+			pink.addActionListener(new ActionListener() {
+			    @Override
+			    public void actionPerformed(ActionEvent event) {
+			        JCheckBox pink = (JCheckBox) event.getSource();
+			        pink.setBounds(80, 80, 20, 20);
+			        if (pink.isSelected()) {
+						System.out.println("Background set to PINK");
+						green.setSelected(false);
+						red.setSelected(false);
+						yellow.setSelected(false);
+						blue.setSelected(false);
+						black.setSelected(false);
+						JOptionPane.showMessageDialog(pink, "Please Close Out Of Program For Updates To Take Place");
+
+						try {
+							FileWriter fw = new FileWriter("C:\\Virtual Journal\\JVCOLOR.txt");
+							PrintWriter pw = new PrintWriter(fw);
+							
+							pw.println("PINK");
+							pw.close();
+						}catch(IOException e) {
+							System.out.println("ERROR");
+						}
+
+			        } else {
+						System.out.println("Background set to NULL");
+
+			        }
+			    }
+			});
+			black.addActionListener(new ActionListener() {
+			    @Override
+			    public void actionPerformed(ActionEvent event) {
+			        JCheckBox black = (JCheckBox) event.getSource();
+			        black.setBounds(80, 100, 20, 20);
+			        if (black.isSelected()) {
+						System.out.println("Background set to BLACK");
+						green.setSelected(false);
+						red.setSelected(false);
+						yellow.setSelected(false);
+						pink.setSelected(false);
+						blue.setSelected(false);
+						JOptionPane.showMessageDialog(black, "Please Close Out Of Program For Updates To Take Place");
+
+						try {
+							FileWriter fw = new FileWriter("C:\\Virtual Journal\\JVCOLOR.txt");
+							PrintWriter pw = new PrintWriter(fw);
+							
+							pw.println("BLACK");
+							pw.close();
+						}catch(IOException e) {
+							System.out.println("ERROR");
+						}
+
+			        } else {
+						System.out.println("Background set to NULL");
+
+			        }
+			    }
+			});
+			
+
+			
+			
+		}
+	}
+}
+

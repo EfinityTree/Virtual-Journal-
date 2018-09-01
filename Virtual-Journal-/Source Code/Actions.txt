@@ -1,0 +1,5703 @@
+package test;
+
+import java.awt.BorderLayout;
+
+
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.TextArea;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.URI;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Random;
+
+import javax.imageio.ImageIO;
+import javax.jws.soap.SOAPBinding.Style;
+//import javax.lang.model.element.Element;
+import javax.print.attribute.AttributeSet;
+import javax.swing.AbstractButton;
+import javax.swing.Action;
+import javax.swing.ButtonModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JColorChooser;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.UIManager;
+import javax.swing.border.LineBorder;
+import javax.swing.event.AncestorListener;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultCaret;
+import javax.swing.text.DefaultEditorKit;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.Document;
+import javax.swing.text.Element.*;
+import javax.swing.text.ElementIterator;
+import javax.swing.text.Keymap;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
+import javax.swing.text.StyledEditorKit;
+import javax.swing.undo.UndoManager;
+
+import org.w3c.dom.Element;
+
+public class MyEditor  {
+	
+	//instantiates to be able to obtain the key variables
+	static t p = new t();
+	
+	//gets the user's screen size 
+	static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	static int swidth = (int) screenSize.getWidth();
+	static int  sheight = (int) screenSize.getHeight();
+
+	//this is the main panel
+	static JPanel panel = new JPanel();
+	
+	//name of picture 
+	static String pictureButtonName__;
+	static final String ELEM = AbstractDocument.ElementNameAttribute;
+	static final String COMP = StyleConstants.ComponentElementName;
+	
+	//This is the select image once the user has scaled it 
+	static 	JButton saveimagebutton = new JButton("Select image");
+	
+	// this gets the input of the user's width
+	static JTextField imgwidth = new JTextField();
+	// this gets the input of the user's height
+	static JTextField imghight = new JTextField();
+	
+	//integer of width
+	static int widthimg;
+	//integer of height 
+	static int hightimg;
+	
+	//the file of the selected journal
+	static File file__;
+	//directory of the file 
+	static String l;
+	//allows the right click 
+    static JPopupMenu popup = new JPopupMenu();
+    static JMenuItem item = new JMenuItem(new DefaultEditorKit.CutAction());
+    
+    //this is the secondary panel that contains main utilities 
+    static JPanel util = new JPanel();
+    
+    //starts at c drive
+	static JFileChooser choose = new JFileChooser(new File("c:\\"));
+	
+	
+	//special characters accents
+	static JButton a1 = new JButton("à");
+	static JButton a2 = new JButton("è");
+	static JButton a3= new JButton("ì");
+	static JButton a4 = new JButton("ò");
+	static JButton a5 = new JButton("ù");
+	static JButton a6 = new JButton("á");
+	static JButton a7 = new JButton("é");
+	static JButton a8 = new JButton("í");
+	static JButton a9 = new JButton("ó");
+	static JButton a10 = new JButton("ú");
+	static JButton a11 = new JButton("ý");
+	static JButton a12 = new JButton("â");
+	static JButton a13= new JButton("ê");
+	static JButton a14= new JButton("î");
+	static JButton a15= new JButton("ô");
+	static JButton a16= new JButton("û");
+	static JButton a17= new JButton("ã");
+	static JButton a18= new JButton("ñ");
+	static JButton a19 = new JButton("õ");
+	static JButton a20 = new JButton("ä");
+	static JButton a21 = new JButton("ë");
+	static JButton a22 = new JButton("ï");
+	static JButton a23 = new JButton("ö");
+	static JButton a24 = new JButton("ü");
+	static JButton a25 = new JButton("ÿ");
+	
+	static JButton a26 = new JButton("À");
+	static JButton a27 = new JButton("È");
+	static JButton a28= new JButton("Ì");
+	static JButton a29 = new JButton("Ò");
+	static JButton a30 = new JButton("Ù");
+	static JButton a31 = new JButton("Á");
+	static JButton a32 = new JButton("É");
+	static JButton a33 = new JButton("Í");
+	static JButton a34 = new JButton("Ó");
+	static JButton a35 = new JButton("Ú");
+	static JButton a36 = new JButton("Ý");
+	static JButton a37 = new JButton("Â");
+	static JButton a38= new JButton("Ê");
+	static JButton a39= new JButton("Î");
+	static JButton a40= new JButton("Ô");
+	static JButton a41= new JButton("Û");
+	static JButton a42= new JButton("Ã");
+	static JButton a43= new JButton("Ñ");
+	static JButton a44 = new JButton("Õ");
+	static JButton a45 = new JButton("Ä");
+	static JButton a46 = new JButton("Ë");
+	static JButton a47 = new JButton("Ï");
+	static JButton a48 = new JButton("Ö");
+	static JButton a49 = new JButton("Ü");
+	static JButton a50 = new JButton("Ÿ");
+	
+	static JButton a51 = new JButton("Ç");
+	static JButton a52 = new JButton("ç");
+	static JButton a53= new JButton("Œ");
+	static JButton a54 = new JButton("œ");
+	static JButton a55 = new JButton("ß");
+	static JButton a56 = new JButton("Ø");
+	static JButton a57 = new JButton("ø");
+	static JButton a58 = new JButton("Å");
+	static JButton a59 = new JButton("å");
+	static JButton a60 = new JButton("Æ");
+	static JButton a61 = new JButton("æ");
+	static JButton a62 = new JButton("Þ");
+	static JButton a63= new JButton("þ");
+	static JButton a64= new JButton("Ð");
+	static JButton a65= new JButton("ð");
+	static JButton a66= new JButton("Š");
+	static JButton a67= new JButton("š");
+	static JButton a68= new JButton("Ž");
+	static JButton a69 = new JButton("ž");
+	
+	//special characters currency 
+	static JButton c1 = new JButton("¤");
+	static JButton c2 = new JButton("£");
+	static JButton c3 = new JButton("€");
+	static JButton c4 = new JButton("$");
+	static JButton c5 = new JButton("¢");
+	static JButton c6 = new JButton("¥");
+	static JButton c7 = new JButton("P");
+	static JButton c8 = new JButton("ƒ");
+	
+	//special characters Math 
+	static JButton m1 = new JButton("±");
+	static JButton m2 = new JButton("˜");
+	static JButton m3 = new JButton("=");
+	static JButton m4 = new JButton("=");
+	static JButton m5 = new JButton("v");
+	
+	
+	static JButton m16 = new JButton("a");
+	static JButton m17 = new JButton("ß");
+	static JButton m18 = new JButton("G");
+	static JButton m19 = new JButton("d");
+	static JButton m20 = new JButton("e");
+	static JButton m21 = new JButton("T");
+	static JButton m22 = new JButton("p");
+	static JButton m23 = new JButton("µ");
+	static JButton m24 = new JButton("S");
+	static JButton m25 = new JButton("s");
+	static JButton m26 = new JButton("t");
+	static JButton m27 = new JButton("F");
+	static JButton m28 = new JButton("f");
+	static JButton m29 = new JButton("O");
+	static JButton m30 = new JButton("°");
+	static JButton m31 = new JButton("8");
+	static JButton m32 = new JButton("ƒ");
+	static JButton m33 = new JButton("?");
+	static JButton m34 = new JButton("?");
+	
+	//exponents 
+	static JButton e1 = new JButton("n");
+	static JButton e2 = new JButton("0");
+	static JButton e3 = new JButton("1");
+	static JButton e4 = new JButton("2");
+	static JButton e5 = new JButton("3");
+	static JButton e6 = new JButton("4");
+	static JButton e7 = new JButton("5");
+	static JButton e8 = new JButton("6");
+	static JButton e9 = new JButton("7");
+	static JButton e10 = new JButton("8");
+	static JButton e11 = new JButton("9");
+
+	
+	
+		//Main Journal window sets all buttons and page one 
+		static class journalview implements ActionListener{
+			public void actionPerformed(ActionEvent e) {
+				//this allows user to right click mouse and be able to Cut,Copy,Paste
+				item.setText("Cut");
+			      popup.add(item);
+			      item = new JMenuItem(new DefaultEditorKit.CopyAction());
+			      item.setText("Copy");
+			      popup.add(item);
+			      item = new JMenuItem(new DefaultEditorKit.PasteAction());
+			      item.setText("Paste");
+			      popup.add(item);
+			      p.page1.setComponentPopupMenu(popup);
+			      
+			   
+			      
+			      //This else-if statement gets the height and width of the monitor and chooses which is the best fit for the screen
+			      //Also this has specific unique windows depending on screen size
+			      //the code is the same just the dimensions change. The code displays some text and all the button needed on the JFrame
+					if((swidth >= 700 && sheight >= 500) && (swidth< 900 && (sheight < 600 || sheight > 600))) {
+						System.out.println("Journal Editor/Viewer successfully launched ");
+						p.jve.setVisible(true);
+						p.jve.setBounds(0, 0, 700, 500);
+						panel.setLayout(null);
+						
+						panel.add(util);
+						util.setLayout(null);
+						util.setBounds(0,0 , 700, 50);
+						util.setBackground(p.p2);
+						
+						JLabel jlabel = new JLabel();
+						jlabel.setBounds(20, 20,60 , 20);
+						jlabel.setText("<html><font color='white'><b>JOURNAL</b></font></html>");
+						util.add(jlabel);
+						
+						
+	
+						
+						p.jve.add(panel);
+						panel.setBackground(p.p1);
+						
+						panel.add(p.nxtpage);
+						p.nxtpage.setBounds(600, 380 , 80, 60);
+				
+						
+						panel.add(p.backpage);
+						p.backpage.setBounds(510, 380, 80, 60);
+						
+						panel.add(p.edit);
+						p.edit.setBounds(10, 380, 80, 60);
+						
+						panel.add(p.save);
+						p.save.setBounds(100, 380, 80, 60);
+						
+						panel.add(p.minimize);
+						p.minimize.setBounds(530,110,130,30);
+						
+						panel.add(p.special);
+						p.special.setBounds(500,160,64,64);
+						
+						panel.add(p.exponent);
+						p.exponent.setBounds(600,170,80,50);
+						
+						panel.add(p.cut);
+						p.cut.setBounds(40, 60, 32, 32);
+						
+						panel.add(p.copy);
+						p.copy.setBounds(90, 60, 32, 32);
+						
+						panel.add(p.paste);
+						p.paste.setBounds(140, 60, 32, 32);
+						
+						
+						util.add(p.fstyles);
+						p.fstyles.setBounds(100, 20, 50, 20);
+						
+						util.add(p.fsize);
+						p.fsize.setBounds(170, 20, 50, 20);
+						
+						
+						
+						util.add(p.bold);
+						p.bold.setBounds(230, 5, 32, 50);
+						
+						util.add(p.italic);
+						p.italic.setBounds(270, 5, 32, 50);
+						
+						util.add(p.underline);
+						p.underline.setBounds(310, 5, 32, 50);
+						
+						util.add(p.left);
+						p.left.setBounds(350, 5, 32, 50);
+						
+						util.add(p.center);
+						p.center.setBounds(390, 5, 32, 50);
+						
+						
+						util.add(p.right);
+						p.right.setBounds(430, 5, 32, 50);
+						
+						util.add(p.fcolor);
+						p.fcolor.setBounds(470, 5, 32, 50);
+						
+						util.add(p.insertPictureButton);
+						p.insertPictureButton.setBounds(510, 5, 32, 50);
+						
+						panel.add(p.editpicture);
+						p.editpicture.setBounds(550, 50, 100, 50);
+						
+						/*util.add(p.print);
+						p.print.setBounds(swidth-300, sheight-870, 70, 20);
+						p.print.setText("Print");*/
+						
+						util.add(p.undo);
+						p.undo.setBounds(590, 5, 32, 50);
+						
+						util.add(p.redo);
+						p.redo.setBounds(630, 5, 32, 50);
+						
+						panel.add(p.scanner);
+						p.scanner.setBounds(550,220,100,50);
+						
+						
+						
+						
+						
+						panel.add(p.page1);
+						p.page1.setBounds(195, 60, 300, 400);
+						p.page1.setBackground(Color.white);
+						p.page1.setEditable(false);
+						
+					}else if((swidth >= 900 && sheight >= 600) && (swidth< 1200 && (sheight < 800 || sheight > 800)) ) {
+				System.out.println("Journal Editor/Viewer successfully launched ");
+				p.jve.setVisible(true);
+				p.jve.setBounds(0, 0, 900, 600);
+				panel.setLayout(null);
+				panel.add(util);
+				util.setLayout(null);
+				util.setBounds(0,0 , 900, 50);
+				util.setBackground(p.p2);
+				
+				JLabel jlabel = new JLabel();
+				jlabel.setBounds(20, 20,60 , 20);
+				jlabel.setText("<html><font color='white'><b>JOURNAL</b></font></html>");
+				util.add(jlabel);
+				
+				
+				
+				
+				p.jve.add(panel);
+				panel.setBackground(p.p1);
+				
+				panel.add(p.nxtpage);
+				p.nxtpage.setBounds(800, 490 , 80, 60);
+		
+				
+				panel.add(p.backpage);
+				p.backpage.setBounds(710,490, 80, 60);
+				
+				panel.add(p.edit);
+				p.edit.setBounds(10, 490, 80, 60);
+				
+				panel.add(p.save);
+				p.save.setBounds(100, 490, 80, 60);
+				
+				panel.add(p.minimize);
+				p.minimize.setBounds(710,80,130,40);
+				
+				panel.add(p.special);
+				p.special.setBounds(670,130,64,64);
+				
+				panel.add(p.exponent);
+				p.exponent.setBounds(770,140,80,50);
+				
+				panel.add(p.cut);
+				p.cut.setBounds(60, 60, 32, 32);
+				
+				panel.add(p.copy);
+				p.copy.setBounds(110, 60, 32, 32);
+				
+				panel.add(p.paste);
+				p.paste.setBounds(160, 60, 32, 32);
+				
+				
+				util.add(p.fstyles);
+				p.fstyles.setBounds(150, 20, 70, 20);
+				
+				util.add(p.fsize);
+				p.fsize.setBounds(220, 20, 50, 20);
+				
+				
+				
+				util.add(p.bold);
+				p.bold.setBounds(280, 5, 32, 50);
+				
+				util.add(p.italic);
+				p.italic.setBounds(320, 5, 32, 50);
+				
+				util.add(p.underline);
+				p.underline.setBounds(360, 5, 32, 50);
+				
+				util.add(p.left);
+				p.left.setBounds(400, 5, 32, 50);
+				
+				util.add(p.center);
+				p.center.setBounds(440, 5, 32, 50);
+				
+				
+				util.add(p.right);
+				p.right.setBounds(480, 5, 32, 50);
+				
+				util.add(p.fcolor);
+				p.fcolor.setBounds(520, 5, 32, 50);
+				
+				util.add(p.insertPictureButton);
+				p.insertPictureButton.setBounds(560, 5, 32, 50);
+				//p.insertPictureButton.setText("ADD PIC");
+				
+				
+				util.add(p.editpicture);
+				p.editpicture.setBounds(600, 5, 150, 50);
+				
+				/*util.add(p.print);
+				p.print.setBounds(swidth-300, sheight-870, 70, 20);
+				p.print.setText("Print");*/
+				
+				util.add(p.undo);
+				p.undo.setBounds(780, 5, 32, 50);
+				
+				util.add(p.redo);
+				p.redo.setBounds(830, 5, 32, 50);
+			
+				panel.add(p.scanner);
+				p.scanner.setBounds(720,190,100,50);
+
+				
+				panel.add(p.page1);
+				p.page1.setBounds(250, 60, 400, 500);
+				p.page1.setBackground(Color.white);
+				p.page1.setEditable(false);
+		
+					}else if((swidth >= 1200 && sheight >= 800) && (swidth< 1440 && (sheight > 900 || sheight < 900))) {
+			      System.out.println("Journal Editor/Viewer successfully launched ");
+				p.jve.setVisible(true);
+				p.jve.setBounds(0, 0, 1200, 800);
+				panel.setLayout(null);
+				panel.add(util);
+				util.setLayout(null);
+				util.setBounds(0,0 , 1200, 70);
+				util.setBackground(p.p2);
+				
+				JLabel jlabel = new JLabel();
+				jlabel.setBounds(20, 20,60 , 20);
+				jlabel.setText("<html><font color='white'><b>JOURNAL</b></font></html>");
+				util.add(jlabel);
+				
+				
+				
+				
+				
+				p.jve.add(panel);
+				panel.setBackground(p.p1);
+				
+				panel.add(p.nxtpage);
+				p.nxtpage.setBounds(1080, 680 , 90, 70);
+		
+				
+				panel.add(p.backpage);
+				p.backpage.setBounds(980, 680, 90, 70);
+				
+				panel.add(p.edit);
+				p.edit.setBounds(10, 680, 90, 70);
+				
+				panel.add(p.save);
+				p.save.setBounds(110, 680, 90, 70);
+				
+				panel.add(p.minimize);
+				p.minimize.setBounds(980,110,140,50);
+				
+				panel.add(p.special);
+				p.special.setBounds(950,170,64,64);
+				
+				panel.add(p.exponent);
+				p.exponent.setBounds(1050,180,80,50);
+				
+				panel.add(p.cut);
+				p.cut.setBounds(80, 80, 32, 32);
+				
+				panel.add(p.copy);
+				p.copy.setBounds(130, 80, 32, 32);
+				
+				panel.add(p.paste);
+				p.paste.setBounds(180, 80, 32, 32);
+				
+				util.add(p.fstyles);
+				p.fstyles.setBounds(170, 20, 85, 20);
+				
+				util.add(p.fsize);
+				p.fsize.setBounds(260, 20, 70, 20);
+				
+				
+				
+				util.add(p.bold);
+				p.bold.setBounds(350, 20, 50, 50);
+				
+				util.add(p.italic);
+				p.italic.setBounds(410, 20, 50, 50);
+				
+				util.add(p.underline);
+				p.underline.setBounds(470, 20, 50, 50);
+				
+				util.add(p.left);
+				p.left.setBounds(530, 20, 50, 50);
+				
+				util.add(p.center);
+				p.center.setBounds(590, 20, 50, 50);
+				
+				
+				util.add(p.right);
+				p.right.setBounds(650, 20, 50, 50);
+				
+				util.add(p.fcolor);
+				p.fcolor.setBounds(710, 20, 50, 50);
+				
+				util.add(p.insertPictureButton);
+				p.insertPictureButton.setBounds(770, 20, 50, 50);
+				
+				util.add(p.editpicture);
+				p.editpicture.setBounds(830, 20, 150, 50);
+				/*util.add(p.print);
+				p.print.setBounds(swidth-300, sheight-870, 70, 20);
+				p.print.setText("Print");*/
+				
+				util.add(p.undo);
+				p.undo.setBounds(1000, 20, 50, 50);
+				
+				util.add(p.redo);
+				p.redo.setBounds(1100, 20, 50, 50);
+			
+				panel.add(p.scanner);
+				p.scanner.setBounds(990,240,100,50);
+				
+				
+				
+				
+				panel.add(p.page1);
+				p.page1.setBounds(300, 90, 600, 670);
+				p.page1.setBackground(Color.white);
+				p.page1.setEditable(false);
+				
+					}else if((swidth >= 1440 && sheight >=900)) {
+				
+				System.out.println("Journal Editor/Viewer successfully launched ");
+				p.jve.setVisible(true);
+				p.jve.setBounds(0, 0, 1440, 900);
+				panel.setLayout(null);
+				panel.add(util);
+				util.setLayout(null);
+				util.setBounds(0,0 , 1440, 80);
+				util.setBackground(p.p2);
+					
+		
+				
+				
+				JLabel jlabel = new JLabel();
+				jlabel.setBounds(140, -24,100 , 80);
+				jlabel.setText("<html><font color='white'><b>JOURNAL</b></font></html>");
+				util.add(jlabel);
+				
+				
+				JLabel flabel = new JLabel();
+				flabel.setBounds(405, -24, 100, 80);
+				flabel.setText("<html><font color='white'><b>Font</b></font></html>");
+				util.add(flabel);
+				
+				JLabel tplabel = new JLabel();
+				tplabel.setBounds(695, -24, 100, 80);
+				tplabel.setText("<html><font color='white'><b>Text & Picture</b></font></html>");
+				util.add(tplabel);
+				
+				JLabel ulabel = new JLabel();
+				ulabel.setBounds(1195, -24, 100, 80);
+				ulabel.setText("<html><font color='white'><b>Utilities</b></font></html>");
+				util.add(ulabel);
+				
+				
+				p.jve.add(panel);
+				panel.setBackground(p.p1);
+				
+				panel.add(p.nxtpage);
+				p.nxtpage.setBounds(1300, 750 , 100, 80);
+		
+				
+				panel.add(p.backpage);
+				p.backpage.setBounds(1190, 750, 100, 80);
+				
+				panel.add(p.edit);
+				p.edit.setBounds(20, 750, 100, 80);
+				
+				panel.add(p.save);
+				p.save.setBounds(130, 750, 100, 80);
+				
+				panel.add(p.minimize);
+				p.minimize.setBounds(1190,100,150,60);
+				
+				panel.add(p.special);
+				p.special.setBounds(1190,170,64,64);
+				
+				panel.add(p.exponent);
+				p.exponent.setBounds(1290, 180, 80,50);
+				
+				util.add(p.cut);
+				p.cut.setBounds(80, 25, 32, 32);
+				
+				util.add(p.copy);
+				p.copy.setBounds(130, 25, 32, 32);
+				
+				util.add(p.paste);
+				p.paste.setBounds(180, 25, 32, 32);
+				
+				util.add(p.fstyles);
+				p.fstyles.setBounds(340, 28, 85, 20);
+				
+				util.add(p.fsize);
+				p.fsize.setBounds(440, 28, 70, 20);
+				
+				
+				
+				util.add(p.bold);
+				p.bold.setBounds(340, 49, 32, 32);
+				
+				util.add(p.italic);
+				p.italic.setBounds(390, 49, 32, 32);
+				
+				util.add(p.underline);
+				p.underline.setBounds(440, 49, 34, 32);
+				
+				util.add(p.left);
+				p.left.setBounds(670, 24, 32, 32);
+				
+				util.add(p.center);
+				p.center.setBounds(720, 24, 32, 32);
+				
+				
+				util.add(p.right);
+				p.right.setBounds(770, 24, 32, 32);
+				
+				util.add(p.fcolor);
+				p.fcolor.setBounds(490, 49, 32, 32);
+				
+				util.add(p.insertPictureButton);
+				p.insertPictureButton.setBounds(720, 49, 32, 32);
+				
+				util.add(p.editpicture);
+				p.editpicture.setBounds(1080, 24, 150, 50);
+				/*util.add(p.print);
+				p.print.setBounds(swidth-300, sheight-870, 70, 20);
+				p.print.setText("Print");*/
+				
+				util.add(p.undo);
+				p.undo.setBounds(1240, 24, 48, 48);
+				
+				util.add(p.redo);
+				p.redo.setBounds(1340, 24, 48, 48);
+				
+				panel.add(p.scanner);
+				p.scanner.setBounds(1230,230,100,50);
+				
+				
+				
+				
+				panel.add(p.page1);
+				p.page1.setBounds(370, 100, 700, 750);
+				p.page1.setBackground(Color.white);
+				p.page1.setEditable(false);
+					
+				
+			      
+				
+				
+				p.jve.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				
+				p.frame.dispose();
+				
+				
+			}
+				
+				
+		
+					file__ = new File("C:\\Virtual Journal\\Intro.txt");
+					readFile(file__);
+					setFrameTitleWithExtn(file__.getName());
+					
+					
+
+					
+				
+			}
+			
+					private static void setFrameTitleWithExtn(String name) {
+						// TODO Auto-generated method stub
+						
+					}
+					//this will read the existing file and also if file not found it will notify you that the file is not found.
+							public void readFile (File file) {
+						
+								StyledDocument doc = null;
+						
+								try (InputStream fis = new FileInputStream(file);
+										ObjectInputStream ois = new ObjectInputStream(fis)) {
+								
+									doc = (DefaultStyledDocument) ois.readObject();
+								}
+								catch (FileNotFoundException ex) {
+
+									JOptionPane.showMessageDialog(p.jve, "Input file was not found!");
+									return;
+								}
+								catch (ClassNotFoundException | IOException ex) {
+
+									throw new RuntimeException(ex);
+								}
+								
+								p.page1.setDocument(doc);
+								doc.addUndoableEditListener(new UndoEditListener());					
+						
+								
+							
+									
+								
+							}
+		}
+			
+		//This Code is for letting the user move foward to the next page. 
+		//It does that by have each time the Next button is clicked it will increase the click value and have the assigned page to appear
+		static class nextpage implements ActionListener{
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				if(p.clicksnextpage<= 150) {
+					p.clicksnextpage++;
+
+					System.out.println("Displaying file PG"+p.clicksnextpage);
+					
+					
+						l = p.dir.getText();
+						System.out.println(p.l);
+						
+					switch(p.clicksnextpage) {
+					case 1:
+						file__ = new File(p.l+"\\PG1.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 2:
+						file__ = new File(p.l+"\\PG2.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 3:
+						file__ = new File(p.l+"\\PG3.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 4:
+						file__ = new File(p.l+"\\PG4.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 5:
+						file__ = new File(p.l+"\\PG5.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 6:
+						file__ = new File(p.l+"\\PG6.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 7:
+						file__ = new File(p.l+"\\PG7.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 8:
+						file__ = new File(p.l+"\\PG8.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 9:
+						file__ = new File(p.l+"\\PG9.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 10:
+						file__ = new File(p.l+"\\PG10.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 11:
+						file__ = new File(p.l+"\\PG11.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 12:
+						file__ = new File(p.l+"\\PG12.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 13:
+						file__ = new File(p.l+"\\PG13.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 14:
+						file__ = new File(p.l+"\\PG14.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 15:
+						file__ = new File(p.l+"\\PG15.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 16:
+						file__ = new File(p.l+"\\PG16.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 17:
+						file__ = new File(p.l+"\\PG17.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 18:
+						file__ = new File(p.l+"\\PG18.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 19:
+						file__ = new File(p.l+"\\PG19.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 20:
+						file__ = new File(p.l+"\\PG20.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 21:
+						file__ = new File(p.l+"\\PG21.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 22:
+						file__ = new File(p.l+"\\PG22.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 23:
+						file__ = new File(p.l+"\\PG23.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 24:
+						file__ = new File(p.l+"\\PG24.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 25:
+						file__ = new File(p.l+"\\PG25.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 26:
+						file__ = new File(p.l+"\\PG26.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 27:
+						file__ = new File(p.l+"\\PG27.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 28:
+						file__ = new File(p.l+"\\PG28.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 29:
+						file__ = new File(p.l+"\\PG29.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 30:
+						file__ = new File(p.l+"\\PG30.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 31:
+						file__ = new File(p.l+"\\PG31.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 32:
+						file__ = new File(p.l+"\\PG32.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 33:
+						file__ = new File(p.l+"\\PG33.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 34:
+						file__ = new File(p.l+"\\PG34.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 35:
+						file__ = new File(p.l+"\\PG35.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 36:
+						file__ = new File(p.l+"\\PG36.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 37:
+						file__ = new File(p.l+"\\PG37.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 38:
+						file__ = new File(p.l+"\\PG38.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 39:
+						file__ = new File(p.l+"\\PG39.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 40:
+						file__ = new File(p.l+"\\PG40.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 41:
+						file__ = new File(p.l+"\\PG41.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 42:
+						file__ = new File(p.l+"\\PG42.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 43:
+						file__ = new File(p.l+"\\PG43.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 44:
+						file__ = new File(p.l+"\\PG44.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 45:
+						file__ = new File(p.l+"\\PG45.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 46:
+						file__ = new File(p.l+"\\PG46.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 47:
+						file__ = new File(p.l+"\\PG47.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 48:
+						file__ = new File(p.l+"\\PG48.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 49:
+						file__ = new File(p.l+"\\PG49.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 50:
+						file__ = new File(p.l+"\\PG50.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 51:
+						file__ = new File(p.l+"\\PG51.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 52:
+						file__ = new File(p.l+"\\PG52.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 53:
+						file__ = new File(p.l+"\\PG53.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 54:
+						file__ = new File(p.l+"\\PG54.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 55:
+						file__ = new File(p.l+"\\PG55.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 56:
+						file__ = new File(p.l+"\\PG56.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 57:
+						file__ = new File(p.l+"\\PG57.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 58:
+						file__ = new File(p.l+"\\PG58.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 59:
+						file__ = new File(p.l+"\\PG59.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 60:
+						file__ = new File(p.l+"\\PG60.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 61:
+						file__ = new File(p.l+"\\PG61.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 62:
+						file__ = new File(p.l+"\\PG62.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 63:
+						file__ = new File(p.l+"\\PG63.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 64:
+						file__ = new File(p.l+"\\PG64.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 65:
+						file__ = new File(p.l+"\\PG65.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 66:
+						file__ = new File(p.l+"\\PG66.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 67:
+						file__ = new File(p.l+"\\PG67.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 68:
+						file__ = new File(p.l+"\\PG68.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 69:
+						file__ = new File(p.l+"\\PG69.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 70:
+						file__ = new File(p.l+"\\PG70.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 71:
+						file__ = new File(p.l+"\\PG71.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 72:
+						file__ = new File(p.l+"\\PG72.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 73:
+						file__ = new File(p.l+"\\PG73.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 74:
+						file__ = new File(p.l+"\\PG74.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 75:
+						file__ = new File(p.l+"\\PG75.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 76:
+						file__ = new File(p.l+"\\PG76.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 77:
+						file__ = new File(p.l+"\\PG77.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 78:
+						file__ = new File(p.l+"\\PG78.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 79:
+						file__ = new File(p.l+"\\PG79.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 80:
+						file__ = new File(p.l+"\\PG80.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 81:
+						file__ = new File(p.l+"\\PG81.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 82:
+						file__ = new File(p.l+"\\PG82.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 83:
+						file__ = new File(p.l+"\\PG83.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 84:
+						file__ = new File(p.l+"\\PG84.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 85:
+						file__ = new File(p.l+"\\PG85.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 86:
+						file__ = new File(p.l+"\\PG86.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 87:
+						file__ = new File(p.l+"\\PG87.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 88:
+						file__ = new File(p.l+"\\PG88.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 89:
+						file__ = new File(p.l+"\\PG89.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 90:
+						file__ = new File(p.l+"\\PG90.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 91:
+						file__ = new File(p.l+"\\PG91.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 92:
+						file__ = new File(p.l+"\\PG92.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 93:
+						file__ = new File(p.l+"\\PG93.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 94:
+						file__ = new File(p.l+"\\PG94.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 95:
+						file__ = new File(p.l+"\\PG95.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 96:
+						file__ = new File(p.l+"\\PG96.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 97:
+						file__ = new File(p.l+"\\PG97.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 98:
+						file__ = new File(p.l+"\\PG98.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 99:
+						file__ = new File(p.l+"\\PG99.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 100:
+						file__ = new File(p.l+"\\PG100.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 101:
+						file__ = new File(p.l+"\\PG101.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 102:
+						file__ = new File(p.l+"\\PG102.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 103:
+						file__ = new File(p.l+"\\PG103.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 104:
+						file__ = new File(p.l+"\\PG104.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 105:
+						file__ = new File(p.l+"\\PG105.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 106:
+						file__ = new File(p.l+"\\PG106.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 107:
+						file__ = new File(p.l+"\\PG107.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 108:
+						file__ = new File(p.l+"\\PG108.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 109:
+						file__ = new File(p.l+"\\PG109.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 110:
+						file__ = new File(p.l+"\\PG110.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 111:
+						file__ = new File(p.l+"\\PG111.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 112:
+						file__ = new File(p.l+"\\PG112.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 113:
+						file__ = new File(p.l+"\\PG113.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 114:
+						file__ = new File(p.l+"\\PG114.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 115:
+						file__ = new File(p.l+"\\PG115.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 116:
+						file__ = new File(p.l+"\\PG116.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 117:
+						file__ = new File(p.l+"\\PG117.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 118:
+						file__ = new File(p.l+"\\PG118.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 119:
+						file__ = new File(p.l+"\\PG119.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 120:
+						file__ = new File(p.l+"\\PG120.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 121:
+						file__ = new File(p.l+"\\PG121.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 122:
+						file__ = new File(p.l+"\\PG122.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 123:
+						file__ = new File(p.l+"\\PG123.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 124:
+						file__ = new File(p.l+"\\PG124.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 125:
+						file__ = new File(p.l+"\\PG125.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 126:
+						file__ = new File(p.l+"\\PG126.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 127:
+						file__ = new File(p.l+"\\PG127.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 128:
+						file__ = new File(p.l+"\\PG128.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 129:
+						file__ = new File(p.l+"\\PG129.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 130:
+						file__ = new File(p.l+"\\PG130.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 131:
+						file__ = new File(p.l+"\\PG131.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 132:
+						file__ = new File(p.l+"\\PG132.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 133:
+						file__ = new File(p.l+"\\PG133.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 134:
+						file__ = new File(p.l+"\\PG134.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 135:
+						file__ = new File(p.l+"\\PG135.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 136:
+						file__ = new File(p.l+"\\PG136.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 137:
+						file__ = new File(p.l+"\\PG137.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 138:
+						file__ = new File(p.l+"\\PG138.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 139:
+						file__ = new File(p.l+"\\PG139.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 140:
+						file__ = new File(p.l+"\\PG140.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 141:
+						file__ = new File(p.l+"\\PG141.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 142:
+						file__ = new File(p.l+"\\PG142.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 143:
+						file__ = new File(p.l+"\\PG143.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 144:
+						file__ = new File(p.l+"\\PG144.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 145:
+						file__ = new File(p.l+"\\PG145.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 146:
+						file__ = new File(p.l+"\\PG146.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 147:
+						file__ = new File(p.l+"\\PG147.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 148:
+						file__ = new File(p.l+"\\PG148.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 149:
+						file__ = new File(p.l+"\\PG149.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+						case 150:
+						file__ = new File(p.l+"\\PG150.txt");
+						readFile(file__);
+						setFrameTitleWithExtn(file__.getName());
+						break;
+
+					
+					}
+					}
+			}
+					private static void setFrameTitleWithExtn(String name) {
+				// TODO Auto-generated method stub
+				
+			}
+
+					public void readFile (File file) {
+				
+						StyledDocument doc = null;
+				
+						try (InputStream fis = new FileInputStream(file);
+								ObjectInputStream ois = new ObjectInputStream(fis)) {
+						
+							doc = (DefaultStyledDocument) ois.readObject();
+						}
+						catch (FileNotFoundException ex) {
+
+							JOptionPane.showMessageDialog(p.jve, "Input file was not found!");
+							return;
+						}
+						catch (ClassNotFoundException | IOException ex) {
+
+							throw new RuntimeException(ex);
+						}
+						
+						p.page1.setDocument(doc);
+						doc.addUndoableEditListener(new UndoEditListener());					
+				
+						
+					
+					
+						
+					}
+					
+				}
+				
+		
+
+		//This code allows the user to move back to the previous page
+		//It does that by have each time the Prev button is clicked it will decrease the click value and have the assigned page to appear
+			static class prevpage implements ActionListener{
+				public void actionPerformed(ActionEvent e) {
+					
+					if(p.clicksnextpage >1) {
+						p.clicksnextpage--;
+						System.out.println("Displaying file PG"+p.clicksnextpage);
+						
+							
+						l = p.dir.getText();
+						System.out.println(p.l);
+						
+						
+							switch(p.clicksnextpage) {
+							case 1:
+								file__ = new File(p.l+"\\PG1.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 2:
+								file__ = new File(p.l+"\\PG2.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 3:
+								file__ = new File(p.l+"\\PG3.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 4:
+								file__ = new File(p.l+"\\PG4.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 5:
+								file__ = new File(p.l+"\\PG5.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 6:
+								file__ = new File(p.l+"\\PG6.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 7:
+								file__ = new File(p.l+"\\PG7.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 8:
+								file__ = new File(p.l+"\\PG8.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 9:
+								file__ = new File(p.l+"\\PG9.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 10:
+								file__ = new File(p.l+"\\PG10.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 11:
+								file__ = new File(p.l+"\\PG11.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 12:
+								file__ = new File(p.l+"\\PG12.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 13:
+								file__ = new File(p.l+"\\PG13.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 14:
+								file__ = new File(p.l+"\\PG14.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 15:
+								file__ = new File(p.l+"\\PG15.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 16:
+								file__ = new File(p.l+"\\PG16.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 17:
+								file__ = new File(p.l+"\\PG17.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 18:
+								file__ = new File(p.l+"\\PG18.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 19:
+								file__ = new File(p.l+"\\PG19.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 20:
+								file__ = new File(p.l+"\\PG20.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 21:
+								file__ = new File(p.l+"\\PG21.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 22:
+								file__ = new File(p.l+"\\PG22.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 23:
+								file__ = new File(p.l+"\\PG23.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 24:
+								file__ = new File(p.l+"\\PG24.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 25:
+								file__ = new File(p.l+"\\PG25.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 26:
+								file__ = new File(p.l+"\\PG26.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 27:
+								file__ = new File(p.l+"\\PG27.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 28:
+								file__ = new File(p.l+"\\PG28.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 29:
+								file__ = new File(p.l+"\\PG29.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 30:
+								file__ = new File(p.l+"\\PG30.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 31:
+								file__ = new File(p.l+"\\PG31.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 32:
+								file__ = new File(p.l+"\\PG32.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 33:
+								file__ = new File(p.l+"\\PG33.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 34:
+								file__ = new File(p.l+"\\PG34.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 35:
+								file__ = new File(p.l+"\\PG35.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 36:
+								file__ = new File(p.l+"\\PG36.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 37:
+								file__ = new File(p.l+"\\PG37.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 38:
+								file__ = new File(p.l+"\\PG38.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 39:
+								file__ = new File(p.l+"\\PG39.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 40:
+								file__ = new File(p.l+"\\PG40.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 41:
+								file__ = new File(p.l+"\\PG41.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 42:
+								file__ = new File(p.l+"\\PG42.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 43:
+								file__ = new File(p.l+"\\PG43.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 44:
+								file__ = new File(p.l+"\\PG44.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 45:
+								file__ = new File(p.l+"\\PG45.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 46:
+								file__ = new File(p.l+"\\PG46.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 47:
+								file__ = new File(p.l+"\\PG47.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 48:
+								file__ = new File(p.l+"\\PG48.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 49:
+								file__ = new File(p.l+"\\PG49.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 50:
+								file__ = new File(p.l+"\\PG50.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 51:
+								file__ = new File(p.l+"\\PG51.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 52:
+								file__ = new File(p.l+"\\PG52.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 53:
+								file__ = new File(p.l+"\\PG53.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 54:
+								file__ = new File(p.l+"\\PG54.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 55:
+								file__ = new File(p.l+"\\PG55.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 56:
+								file__ = new File(p.l+"\\PG56.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 57:
+								file__ = new File(p.l+"\\PG57.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 58:
+								file__ = new File(p.l+"\\PG58.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 59:
+								file__ = new File(p.l+"\\PG59.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 60:
+								file__ = new File(p.l+"\\PG60.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 61:
+								file__ = new File(p.l+"\\PG61.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 62:
+								file__ = new File(p.l+"\\PG62.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 63:
+								file__ = new File(p.l+"\\PG63.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 64:
+								file__ = new File(p.l+"\\PG64.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 65:
+								file__ = new File(p.l+"\\PG65.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 66:
+								file__ = new File(p.l+"\\PG66.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 67:
+								file__ = new File(p.l+"\\PG67.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 68:
+								file__ = new File(p.l+"\\PG68.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 69:
+								file__ = new File(p.l+"\\PG69.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 70:
+								file__ = new File(p.l+"\\PG70.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 71:
+								file__ = new File(p.l+"\\PG71.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 72:
+								file__ = new File(p.l+"\\PG72.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 73:
+								file__ = new File(p.l+"\\PG73.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 74:
+								file__ = new File(p.l+"\\PG74.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 75:
+								file__ = new File(p.l+"\\PG75.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 76:
+								file__ = new File(p.l+"\\PG76.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 77:
+								file__ = new File(p.l+"\\PG77.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 78:
+								file__ = new File(p.l+"\\PG78.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 79:
+								file__ = new File(p.l+"\\PG79.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 80:
+								file__ = new File(p.l+"\\PG80.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 81:
+								file__ = new File(p.l+"\\PG81.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 82:
+								file__ = new File(p.l+"\\PG82.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 83:
+								file__ = new File(p.l+"\\PG83.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 84:
+								file__ = new File(p.l+"\\PG84.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 85:
+								file__ = new File(p.l+"\\PG85.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 86:
+								file__ = new File(p.l+"\\PG86.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 87:
+								file__ = new File(p.l+"\\PG87.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 88:
+								file__ = new File(p.l+"\\PG88.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 89:
+								file__ = new File(p.l+"\\PG89.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 90:
+								file__ = new File(p.l+"\\PG90.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 91:
+								file__ = new File(p.l+"\\PG91.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 92:
+								file__ = new File(p.l+"\\PG92.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 93:
+								file__ = new File(p.l+"\\PG93.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 94:
+								file__ = new File(p.l+"\\PG94.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 95:
+								file__ = new File(p.l+"\\PG95.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 96:
+								file__ = new File(p.l+"\\PG96.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 97:
+								file__ = new File(p.l+"\\PG97.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 98:
+								file__ = new File(p.l+"\\PG98.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 99:
+								file__ = new File(p.l+"\\PG99.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 100:
+								file__ = new File(p.l+"\\PG100.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 101:
+								file__ = new File(p.l+"\\PG101.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 102:
+								file__ = new File(p.l+"\\PG102.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 103:
+								file__ = new File(p.l+"\\PG103.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 104:
+								file__ = new File(p.l+"\\PG104.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 105:
+								file__ = new File(p.l+"\\PG105.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 106:
+								file__ = new File(p.l+"\\PG106.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 107:
+								file__ = new File(p.l+"\\PG107.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 108:
+								file__ = new File(p.l+"\\PG108.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 109:
+								file__ = new File(p.l+"\\PG109.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 110:
+								file__ = new File(p.l+"\\PG110.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 111:
+								file__ = new File(p.l+"\\PG111.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 112:
+								file__ = new File(p.l+"\\PG112.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 113:
+								file__ = new File(p.l+"\\PG113.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 114:
+								file__ = new File(p.l+"\\PG114.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 115:
+								file__ = new File(p.l+"\\PG115.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 116:
+								file__ = new File(p.l+"\\PG116.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 117:
+								file__ = new File(p.l+"\\PG117.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 118:
+								file__ = new File(p.l+"\\PG118.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 119:
+								file__ = new File(p.l+"\\PG119.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 120:
+								file__ = new File(p.l+"\\PG120.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 121:
+								file__ = new File(p.l+"\\PG121.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 122:
+								file__ = new File(p.l+"\\PG122.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 123:
+								file__ = new File(p.l+"\\PG123.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 124:
+								file__ = new File(p.l+"\\PG124.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 125:
+								file__ = new File(p.l+"\\PG125.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 126:
+								file__ = new File(p.l+"\\PG126.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 127:
+								file__ = new File(p.l+"\\PG127.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 128:
+								file__ = new File(p.l+"\\PG128.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 129:
+								file__ = new File(p.l+"\\PG129.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 130:
+								file__ = new File(p.l+"\\PG130.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 131:
+								file__ = new File(p.l+"\\PG131.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 132:
+								file__ = new File(p.l+"\\PG132.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 133:
+								file__ = new File(p.l+"\\PG133.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 134:
+								file__ = new File(p.l+"\\PG134.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 135:
+								file__ = new File(p.l+"\\PG135.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 136:
+								file__ = new File(p.l+"\\PG136.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 137:
+								file__ = new File(p.l+"\\PG137.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 138:
+								file__ = new File(p.l+"\\PG138.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 139:
+								file__ = new File(p.l+"\\PG139.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 140:
+								file__ = new File(p.l+"\\PG140.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 141:
+								file__ = new File(p.l+"\\PG141.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 142:
+								file__ = new File(p.l+"\\PG142.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 143:
+								file__ = new File(p.l+"\\PG143.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 144:
+								file__ = new File(p.l+"\\PG144.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 145:
+								file__ = new File(p.l+"\\PG145.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 146:
+								file__ = new File(p.l+"\\PG146.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 147:
+								file__ = new File(p.l+"\\PG147.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 148:
+								file__ = new File(p.l+"\\PG148.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 149:
+								file__ = new File(p.l+"\\PG149.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+								case 150:
+								file__ = new File(p.l+"\\PG150.txt");
+								readFile(file__);
+								setFrameTitleWithExtn(file__.getName());
+								break;
+							}
+							
+							
+					}
+				}
+						
+						private static void setFrameTitleWithExtn(String name) {
+					// TODO Auto-generated method stub
+					
+				}
+
+						public void readFile (File file) {
+					
+							StyledDocument doc = null;
+					
+							try (InputStream fis = new FileInputStream(file);
+									ObjectInputStream ois = new ObjectInputStream(fis)) {
+							
+								doc = (DefaultStyledDocument) ois.readObject();
+							}
+							catch (FileNotFoundException ex) {
+
+								JOptionPane.showMessageDialog(p.jve, "Input file was not found!");
+								return;
+							}
+							catch (ClassNotFoundException | IOException ex) {
+
+								throw new RuntimeException(ex);
+							}
+							
+							p.page1.setDocument(doc);
+							doc.addUndoableEditListener(new UndoEditListener());					
+					
+							
+						
+						
+							
+						}
+						
+					}
+				//makes page editable
+				static class editj implements ActionListener {
+					public void actionPerformed (ActionEvent e) {
+						p.page1.setEditable(true);	
+						System.out.println("Made TextPane Editable");
+				}	
+			
+			}
+				//makes page un-editable
+				static class savej implements ActionListener{
+					public void actionPerformed(ActionEvent e) {
+						p.page1.setEditable(false);
+						System.out.print("Made TextPane non-editable");
+					}
+				}
+				
+				
+			
+				
+			
+			
+				//set the font style to the selected font style in the font family
+				static class FontFamilyItemListener implements ItemListener {
+
+					public void itemStateChanged(ItemEvent e) {
+
+						if ((e.getStateChange() != ItemEvent.SELECTED) ||
+							(p.fstyles.getSelectedIndex() == 0)) {
+						
+							return;
+						}
+						
+						String fontFamily = (String) e.getItem();
+						p.fstyles.setAction(new StyledEditorKit.FontFamilyAction(fontFamily, fontFamily));	
+						p.fstyles.setSelectedIndex(0); // initialize to (default) select
+						p.page1.requestFocusInWindow();
+					}
+				}
+
+				//set font's size
+				static class size implements ActionListener {
+					  
+					public void actionPerformed(ActionEvent e) {
+				        {
+				        	JComboBox source = (JComboBox) e.getSource();
+						     p.szitem = (Integer) source.getSelectedItem();
+				        	switch(p.szitem) {
+				        	case 10:
+				        		p.size10.actionPerformed(e);
+				        		 System.out.println("Made text to size 10");
+
+				        		break;
+				        	case 12:
+				        		p.size12.actionPerformed(e);
+				        		 System.out.println("Made text to size 12");
+
+				        		 break;
+				        	case 14:
+				        		p.size14.actionPerformed(e);
+				        		 System.out.println("Made text to size 14");
+
+				        		 break;
+				        	case 18:
+				        		p.size18.actionPerformed(e);
+				        		 System.out.println("Made text to size 18");
+
+				        		 break;
+				        	case 24:
+				        		p.size24.actionPerformed(e);
+				        		 System.out.println("Made text to size 24");
+
+				        		 break;
+				        	case 30:
+				        		p.size30.actionPerformed(e);
+				        		 System.out.println("Made text to size 30");
+
+				        		 break;
+				        	case 36:
+				        		p.size36.actionPerformed(e);
+				        		 System.out.println("Made text to size 36");
+
+				        		 break;
+				        	case 48:
+				        		p.size48.actionPerformed(e);
+				        		 System.out.println("Made text to size 48");
+
+				        		 break;
+				        	case 60:
+				        		p.size60.actionPerformed(e);
+				        		 System.out.println("Made text to size 60");
+
+				        		 break;
+				        	case 72:
+				        		p.size72.actionPerformed(e);
+				        		 System.out.println("Made text to size 72");
+
+				        		 break;
+				        	case 96:
+				        		p.size96.actionPerformed(e);
+				        		 System.out.println("Made text to size 96");
+
+				        		 break;
+				        		 
+				        
+				        	}
+				        }
+					}
+				}
+				//Sets bold/underline/and italics 
+					static class editbuttons implements ActionListener {
+						public void actionPerformed(ActionEvent e) {
+					        {
+					        
+					        	
+					        }
+						}
+				}
+					static class Bold implements ActionListener {
+						public void actionPerformed(ActionEvent e) {
+					        {
+					        	System.out.println("Text is now Bold");
+					        }
+						}
+				 }
+					static class Underline implements ActionListener {
+						public void actionPerformed(ActionEvent e) {
+					        {
+					        	System.out.println("Text is now Underlined");
+					        }
+						}
+				 }
+					static class Italics implements ActionListener {
+						public void actionPerformed(ActionEvent e) {
+					        {
+					        	System.out.println("Text is now Italiszed");
+					        }
+						}
+				 }
+					
+					//sets text alignment to the center 
+					static class center implements ActionListener {
+						  
+						public void actionPerformed(ActionEvent e) {
+					        {
+					       
+					        	StyledDocument doc = ((JTextPane)p.page1).getStyledDocument();
+					        	SimpleAttributeSet center = new SimpleAttributeSet();
+					        	StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+					        	doc.setParagraphAttributes(0, doc.getLength(), center, false);
+				        		 System.out.println("Made text alignment CENTER");
+
+					        }
+						}
+				}
+					//sets text alignment to the left 
+					static class left implements ActionListener {
+						  
+						public void actionPerformed(ActionEvent e) {
+					        {
+					        
+					        	StyledDocument doc = ((JTextPane)p.page1).getStyledDocument();
+					        	SimpleAttributeSet left = new SimpleAttributeSet();
+					        	StyleConstants.setAlignment(left, StyleConstants.ALIGN_LEFT);
+					        	doc.setParagraphAttributes(0, doc.getLength(), left, false);
+				        		 System.out.println("Made text alignment LEFT");
+
+					        }
+						}
+				}
+					//sets text alignment to the right
+					static class right implements ActionListener {
+						  
+						public void actionPerformed(ActionEvent e) {
+					        {
+					        
+					        	StyledDocument doc = ((JTextPane)p.page1).getStyledDocument();
+					        	SimpleAttributeSet right = new SimpleAttributeSet();
+					        	StyleConstants.setAlignment(right, StyleConstants.ALIGN_RIGHT);
+					        	doc.setParagraphAttributes(0, doc.getLength(), right, false);
+				        		 System.out.println("Made text alignment RIGHT");
+
+					        }
+						}
+				}
+					//sets font color
+					static class fontcolor implements ActionListener {
+						  
+						public void actionPerformed(ActionEvent e) {
+					        {
+					        	
+					        		
+					    			Color newColor = JColorChooser.showDialog(p.fcolor, "Choose a color",Color.BLACK);
+					    			if (newColor == null) {
+					    			
+					    				return;
+					    			}
+					    			
+					    			SimpleAttributeSet attr = new SimpleAttributeSet();
+					    			StyleConstants.setForeground(attr, newColor);
+					    			((JTextPane)p.page1).setCharacterAttributes(attr, false);
+					        		 System.out.println("Changed text color");
+
+					    			
+					    		}
+					    	}
+					        }
+						//This gets the image and puts it in page1
+					static class PictureInsertActionListener implements ActionListener {
+
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							
+							File pictureFile = choosePictureFile();
+							
+							if (pictureFile == null) {
+							
+								p.page1.requestFocusInWindow();
+								return;
+							}
+							
+							ImageIcon icon = new ImageIcon(pictureFile.toString());	
+							JButton picButton = new JButton(icon);
+							picButton.setBackground(Color.WHITE);
+							picButton.setBorder(new LineBorder(Color.WHITE));
+							picButton.setMargin(new Insets(0,0,0,0));
+							picButton.setAlignmentY(.9f);
+							picButton.setAlignmentX(.9f);
+							picButton.addFocusListener(new PictureFocusListener());
+							picButton.setName("PICTURE_ID_" + new Random().nextInt());
+
+							p.page1.insertComponent(picButton);
+			        		 System.out.println("Succefully added picture to page1");
+
+						}
+						
+						public File choosePictureFile() {
+			        		 System.out.println("Choosing Picture");
+
+							JFileChooser chooser = new JFileChooser();
+							FileNameExtensionFilter filter = new FileNameExtensionFilter(
+												"PNG, JPG & GIF Images", "png", "jpg", "gif");
+							chooser.setFileFilter(filter);
+							
+							if (chooser.showOpenDialog(p.jve) == JFileChooser.APPROVE_OPTION) {
+							
+								return chooser.getSelectedFile();
+							}
+							else {
+								return null;
+							}
+						}
+					} // PictureInsertActionListener
+
+					static class PictureFocusListener implements FocusListener {
+
+						@Override
+						public void focusGained(FocusEvent e) {
+							p.button = (JButton) e.getComponent();
+							p.button.setBorder(new LineBorder(Color.WHITE));
+							pictureButtonName__ = p.button.getName();
+						}
+						
+						@Override
+						public void focusLost(FocusEvent e) {
+
+							((JButton) e.getComponent()).setBorder(new LineBorder(Color.WHITE));
+						}
+					}
+
+					
+					
+					public static StyledDocument getEditorDocument() {
+					
+						StyledDocument doc = (DefaultStyledDocument) p.page1.getDocument();
+						return doc;
+					}
+					
+					
+					
+					private static File File(String string) {
+						return null;
+					}
+
+
+					//this opens a window which has two textfields one being width and the other being height. User can set the WxH of image 
+					static class editpic extends pic implements ActionListener{
+						public void actionPerformed(ActionEvent e){
+							System.out.println("Opened Edit Picture Window");
+							JFrame frame = new JFrame();
+							frame.setVisible(true);
+							frame.setBounds(100, 100, 500, 300);
+							JPanel pane = new JPanel();
+							frame.add(pane);
+							pane.setLayout(null);
+							pane.setBackground(p.p1);
+							pane.add(saveimagebutton);
+							pane.add(imgwidth);
+							pane.add(imghight);
+							
+							
+							imgwidth.setEditable(true);
+							imghight.setEditable(true);
+							imgwidth.setBounds(300, 30, 70, 30);
+							JLabel w = new JLabel();
+							w.setText("<html><b><font color=black>Enter Width</b></font></html>");
+							w.setBounds(300, 70, 70, 20);
+							pane.add(w);
+							imghight.setBounds(400, 30, 70, 30);
+							JLabel h = new JLabel();
+							h.setText("<html><b><font color=black>Enter Height</b></font></html>");
+							h.setBounds(400, 70, 70, 20);
+							pane.add(h);
+
+							saveimagebutton.setBounds(130, 30, 120, 40);
+							
+							
+							
+					}
+				}
+							//this recieves the width and height of the picture and sends it to the image method
+						    	static class saveimage extends pic implements ActionListener{
+						    		public void actionPerformed(ActionEvent e) {
+						    			widthimg = Integer.parseInt(imgwidth.getText());
+										hightimg = Integer.parseInt(imghight.getText());
+										
+						    			try {
+										image();
+										System.out.println("Called image method");
+									} catch (IOException e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+									
+						    		}
+						    	}	
+						        
+					}	
+							
+							//prints the file page 1 is displaying
+							static class printPage implements ActionListener{
+								public void actionPerformed(ActionEvent e ) {
+									
+							        		try {
+										         p.page1.setContentType("text/html");
+										          boolean done = p.page1.print();
+										          if (done) {
+										            System.out.println("Printing is done");
+										          } else {
+										            System.out.println("Error while printing");
+										          }
+										        } catch (Exception pex) {
+										          pex.printStackTrace();
+										        }
+								}
+							        	
+								}
+							
+								// This class contains the functions of undo and redo in page1
+							static class UndoEditListener implements UndoableEditListener {
+
+								@Override
+								public void undoableEditHappened(UndoableEditEvent e) {
+
+									p.mgr.addEdit(e.getEdit()); // remember the edit
+								}
+							}
+							
+							static class UndoActionListener implements ActionListener {
+							
+								private String type;
+							
+								public UndoActionListener(String type) {
+								
+									this.type = type;
+								}
+
+								@Override
+								public void actionPerformed(ActionEvent e) {
+
+									switch (type) {
+										//undo function
+										case "UNDO":
+											if (! p.mgr.canUndo()) {
+												p.page1.requestFocusInWindow();
+												return; // no edits to undo
+											}
+
+											p.mgr.undo();
+											break;
+										//redo function
+										case "REDO":
+											if (! p.mgr.canRedo()) {
+												p.page1.requestFocusInWindow();
+
+												return; // no edits to redo
+											}
+
+											p.mgr.redo();
+									}
+									p.page1.requestFocusInWindow();
+								}
+							} // UndoActionListener
+					
+							
+							
+							
+							// This Class contains the functions on saving Page 1 depending on the files that is on 
+							static class SaveFileListener implements ActionListener {
+								
+								@Override
+								public void actionPerformed(ActionEvent e) {
+					        		 System.out.println("Successfully Saved PG"+p.clicksnextpage);
+
+										//saves the file that page1 is displaying
+										p.page1.setEditable(false);
+										
+										l = p.dir.getText();
+										
+										switch(p.clicksnextpage) {
+										case 1:
+											file__ = new File(p.l+"\\PG1.txt");
+											break;
+											case 2:
+											file__ = new File(p.l+"\\PG2.txt");
+											break;
+											case 3:
+											file__ = new File(p.l+"\\PG3.txt");
+											break;
+											case 4:
+											file__ = new File(p.l+"\\PG4.txt");
+											break;
+											case 5:
+											file__ = new File(p.l+"\\PG5.txt");
+											break;
+											case 6:
+											file__ = new File(p.l+"\\PG6.txt");
+											break;
+											case 7:
+											file__ = new File(p.l+"\\PG7.txt");
+											break;
+											case 8:
+											file__ = new File(p.l+"\\PG8.txt");
+											break;
+											case 9:
+											file__ = new File(p.l+"\\PG9.txt");
+											break;
+											case 10:
+											file__ = new File(p.l+"\\PG10.txt");
+											break;
+											case 11:
+											file__ = new File(p.l+"\\PG11.txt");
+											break;
+											case 12:
+											file__ = new File(p.l+"\\PG12.txt");
+											break;
+											case 13:
+											file__ = new File(p.l+"\\PG13.txt");
+											break;
+											case 14:
+											file__ = new File(p.l+"\\PG14.txt");
+											break;
+											case 15:
+											file__ = new File(p.l+"\\PG15.txt");
+											break;
+											case 16:
+											file__ = new File(p.l+"\\PG16.txt");
+											break;
+											case 17:
+											file__ = new File(p.l+"\\PG17.txt");
+											break;
+											case 18:
+											file__ = new File(p.l+"\\PG18.txt");
+											break;
+											case 19:
+											file__ = new File(p.l+"\\PG19.txt");
+											break;
+											case 20:
+											file__ = new File(p.l+"\\PG20.txt");
+											break;
+											case 21:
+											file__ = new File(p.l+"\\PG21.txt");
+											break;
+											case 22:
+											file__ = new File(p.l+"\\PG22.txt");
+											break;
+											case 23:
+											file__ = new File(p.l+"\\PG23.txt");
+											break;
+											case 24:
+											file__ = new File(p.l+"\\PG24.txt");
+											break;
+											case 25:
+											file__ = new File(p.l+"\\PG25.txt");
+											break;
+											case 26:
+											file__ = new File(p.l+"\\PG26.txt");
+											break;
+											case 27:
+											file__ = new File(p.l+"\\PG27.txt");
+											break;
+											case 28:
+											file__ = new File(p.l+"\\PG28.txt");
+											break;
+											case 29:
+											file__ = new File(p.l+"\\PG29.txt");
+											break;
+											case 30:
+											file__ = new File(p.l+"\\PG30.txt");
+											break;
+											case 31:
+											file__ = new File(p.l+"\\PG31.txt");
+											break;
+											case 32:
+											file__ = new File(p.l+"\\PG32.txt");
+											break;
+											case 33:
+											file__ = new File(p.l+"\\PG33.txt");
+											break;
+											case 34:
+											file__ = new File(p.l+"\\PG34.txt");
+											break;
+											case 35:
+											file__ = new File(p.l+"\\PG35.txt");
+											break;
+											case 36:
+											file__ = new File(p.l+"\\PG36.txt");
+											break;
+											case 37:
+											file__ = new File(p.l+"\\PG37.txt");
+											break;
+											case 38:
+											file__ = new File(p.l+"\\PG38.txt");
+											break;
+											case 39:
+											file__ = new File(p.l+"\\PG39.txt");
+											break;
+											case 40:
+											file__ = new File(p.l+"\\PG40.txt");
+											break;
+											case 41:
+											file__ = new File(p.l+"\\PG41.txt");
+											break;
+											case 42:
+											file__ = new File(p.l+"\\PG42.txt");
+											break;
+											case 43:
+											file__ = new File(p.l+"\\PG43.txt");
+											break;
+											case 44:
+											file__ = new File(p.l+"\\PG44.txt");
+											break;
+											case 45:
+											file__ = new File(p.l+"\\PG45.txt");
+											break;
+											case 46:
+											file__ = new File(p.l+"\\PG46.txt");
+											break;
+											case 47:
+											file__ = new File(p.l+"\\PG47.txt");
+											break;
+											case 48:
+											file__ = new File(p.l+"\\PG48.txt");
+											break;
+											case 49:
+											file__ = new File(p.l+"\\PG49.txt");
+											break;
+											case 50:
+											file__ = new File(p.l+"\\PG50.txt");
+											break;
+											case 51:
+											file__ = new File(p.l+"\\PG51.txt");
+											break;
+											case 52:
+											file__ = new File(p.l+"\\PG52.txt");
+											break;
+											case 53:
+											file__ = new File(p.l+"\\PG53.txt");
+											break;
+											case 54:
+											file__ = new File(p.l+"\\PG54.txt");
+											break;
+											case 55:
+											file__ = new File(p.l+"\\PG55.txt");
+											break;
+											case 56:
+											file__ = new File(p.l+"\\PG56.txt");
+											break;
+											case 57:
+											file__ = new File(p.l+"\\PG57.txt");
+											break;
+											case 58:
+											file__ = new File(p.l+"\\PG58.txt");
+											break;
+											case 59:
+											file__ = new File(p.l+"\\PG59.txt");
+											break;
+											case 60:
+											file__ = new File(p.l+"\\PG60.txt");
+											break;
+											case 61:
+											file__ = new File(p.l+"\\PG61.txt");
+											break;
+											case 62:
+											file__ = new File(p.l+"\\PG62.txt");
+											break;
+											case 63:
+											file__ = new File(p.l+"\\PG63.txt");
+											break;
+											case 64:
+											file__ = new File(p.l+"\\PG64.txt");
+											break;
+											case 65:
+											file__ = new File(p.l+"\\PG65.txt");
+											break;
+											case 66:
+											file__ = new File(p.l+"\\PG66.txt");
+											break;
+											case 67:
+											file__ = new File(p.l+"\\PG67.txt");
+											break;
+											case 68:
+											file__ = new File(p.l+"\\PG68.txt");
+											break;
+											case 69:
+											file__ = new File(p.l+"\\PG69.txt");
+											break;
+											case 70:
+											file__ = new File(p.l+"\\PG70.txt");
+											break;
+											case 71:
+											file__ = new File(p.l+"\\PG71.txt");
+											break;
+											case 72:
+											file__ = new File(p.l+"\\PG72.txt");
+											break;
+											case 73:
+											file__ = new File(p.l+"\\PG73.txt");
+											break;
+											case 74:
+											file__ = new File(p.l+"\\PG74.txt");
+											break;
+											case 75:
+											file__ = new File(p.l+"\\PG75.txt");
+											break;
+											case 76:
+											file__ = new File(p.l+"\\PG76.txt");
+											break;
+											case 77:
+											file__ = new File(p.l+"\\PG77.txt");
+											break;
+											case 78:
+											file__ = new File(p.l+"\\PG78.txt");
+											break;
+											case 79:
+											file__ = new File(p.l+"\\PG79.txt");
+											break;
+											case 80:
+											file__ = new File(p.l+"\\PG80.txt");
+											break;
+											case 81:
+											file__ = new File(p.l+"\\PG81.txt");
+											break;
+											case 82:
+											file__ = new File(p.l+"\\PG82.txt");
+											break;
+											case 83:
+											file__ = new File(p.l+"\\PG83.txt");
+											break;
+											case 84:
+											file__ = new File(p.l+"\\PG84.txt");
+											break;
+											case 85:
+											file__ = new File(p.l+"\\PG85.txt");
+											break;
+											case 86:
+											file__ = new File(p.l+"\\PG86.txt");
+											break;
+											case 87:
+											file__ = new File(p.l+"\\PG87.txt");
+											break;
+											case 88:
+											file__ = new File(p.l+"\\PG88.txt");
+											break;
+											case 89:
+											file__ = new File(p.l+"\\PG89.txt");
+											break;
+											case 90:
+											file__ = new File(p.l+"\\PG90.txt");
+											break;
+											case 91:
+											file__ = new File(p.l+"\\PG91.txt");
+											break;
+											case 92:
+											file__ = new File(p.l+"\\PG92.txt");
+											break;
+											case 93:
+											file__ = new File(p.l+"\\PG93.txt");
+											break;
+											case 94:
+											file__ = new File(p.l+"\\PG94.txt");
+											break;
+											case 95:
+											file__ = new File(p.l+"\\PG95.txt");
+											break;
+											case 96:
+											file__ = new File(p.l+"\\PG96.txt");
+											break;
+											case 97:
+											file__ = new File(p.l+"\\PG97.txt");
+											break;
+											case 98:
+											file__ = new File(p.l+"\\PG98.txt");
+											break;
+											case 99:
+											file__ = new File(p.l+"\\PG99.txt");
+											break;
+											case 100:
+											file__ = new File(p.l+"\\PG100.txt");
+											break;
+											case 101:
+											file__ = new File(p.l+"\\PG101.txt");
+											break;
+											case 102:
+											file__ = new File(p.l+"\\PG102.txt");
+											break;
+											case 103:
+											file__ = new File(p.l+"\\PG103.txt");
+											break;
+											case 104:
+											file__ = new File(p.l+"\\PG104.txt");
+											break;
+											case 105:
+											file__ = new File(p.l+"\\PG105.txt");
+											break;
+											case 106:
+											file__ = new File(p.l+"\\PG106.txt");
+											break;
+											case 107:
+											file__ = new File(p.l+"\\PG107.txt");
+											break;
+											case 108:
+											file__ = new File(p.l+"\\PG108.txt");
+											break;
+											case 109:
+											file__ = new File(p.l+"\\PG109.txt");
+											break;
+											case 110:
+											file__ = new File(p.l+"\\PG110.txt");
+											break;
+											case 111:
+											file__ = new File(p.l+"\\PG111.txt");
+											break;
+											case 112:
+											file__ = new File(p.l+"\\PG112.txt");
+											break;
+											case 113:
+											file__ = new File(p.l+"\\PG113.txt");
+											break;
+											case 114:
+											file__ = new File(p.l+"\\PG114.txt");
+											break;
+											case 115:
+											file__ = new File(p.l+"\\PG115.txt");
+											break;
+											case 116:
+											file__ = new File(p.l+"\\PG116.txt");
+											break;
+											case 117:
+											file__ = new File(p.l+"\\PG117.txt");
+											break;
+											case 118:
+											file__ = new File(p.l+"\\PG118.txt");
+											break;
+											case 119:
+											file__ = new File(p.l+"\\PG119.txt");
+											break;
+											case 120:
+											file__ = new File(p.l+"\\PG120.txt");
+											break;
+											case 121:
+											file__ = new File(p.l+"\\PG121.txt");
+											break;
+											case 122:
+											file__ = new File(p.l+"\\PG122.txt");
+											break;
+											case 123:
+											file__ = new File(p.l+"\\PG123.txt");
+											break;
+											case 124:
+											file__ = new File(p.l+"\\PG124.txt");
+											break;
+											case 125:
+											file__ = new File(p.l+"\\PG125.txt");
+											break;
+											case 126:
+											file__ = new File(p.l+"\\PG126.txt");
+											break;
+											case 127:
+											file__ = new File(p.l+"\\PG127.txt");
+											break;
+											case 128:
+											file__ = new File(p.l+"\\PG128.txt");
+											break;
+											case 129:
+											file__ = new File(p.l+"\\PG129.txt");
+											break;
+											case 130:
+											file__ = new File(p.l+"\\PG130.txt");
+											break;
+											case 131:
+											file__ = new File(p.l+"\\PG131.txt");
+											break;
+											case 132:
+											file__ = new File(p.l+"\\PG132.txt");
+											break;
+											case 133:
+											file__ = new File(p.l+"\\PG133.txt");
+											break;
+											case 134:
+											file__ = new File(p.l+"\\PG134.txt");
+											break;
+											case 135:
+											file__ = new File(p.l+"\\PG135.txt");
+											break;
+											case 136:
+											file__ = new File(p.l+"\\PG136.txt");
+											break;
+											case 137:
+											file__ = new File(p.l+"\\PG137.txt");
+											break;
+											case 138:
+											file__ = new File(p.l+"\\PG138.txt");
+											break;
+											case 139:
+											file__ = new File(p.l+"\\PG139.txt");
+											break;
+											case 140:
+											file__ = new File(p.l+"\\PG140.txt");
+											break;
+											case 141:
+											file__ = new File(p.l+"\\PG141.txt");
+											break;
+											case 142:
+											file__ = new File(p.l+"\\PG142.txt");
+											break;
+											case 143:
+											file__ = new File(p.l+"\\PG143.txt");
+											break;
+											case 144:
+											file__ = new File(p.l+"\\PG144.txt");
+											break;
+											case 145:
+											file__ = new File(p.l+"\\PG145.txt");
+											break;
+											case 146:
+											file__ = new File(p.l+"\\PG146.txt");
+											break;
+											case 147:
+											file__ = new File(p.l+"\\PG147.txt");
+											break;
+											case 148:
+											file__ = new File(p.l+"\\PG148.txt");
+											break;
+											case 149:
+											file__ = new File(p.l+"\\PG149.txt");
+											break;
+											case 150:
+											file__ = new File(p.l+"\\PG150.txt");
+											break;
+
+										}
+										
+									DefaultStyledDocument doc = (DefaultStyledDocument) getEditorDocument();
+									
+									try (OutputStream fos = new FileOutputStream(file__);
+											ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+										
+										oos.writeObject(doc);
+
+										
+									}
+									catch (IOException ex) {
+
+										throw new RuntimeException(ex);
+									}
+									
+									setFrameTitleWithExtn(file__.getName());
+									
+								
+								}
+
+								private void setFrameTitleWithExtn(String name) {
+									// TODO Auto-generated method stub
+									
+								}
+								}
+							//This allows the user to search for their journal
+								static class chooser implements ActionListener{
+									public void actionPerformed(ActionEvent e) {
+													
+													
+										choose.setDialogTitle("Locate The Journal Folder");
+										choose.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+										choose.showSaveDialog(null);
+										 p.dir.setText(choose.getSelectedFile().getPath());
+													
+													
+												}
+											}	
+											
+											//minimize screen all relative to the screen size 
+											static class minimizescreen implements ActionListener{
+												public void actionPerformed (ActionEvent e) {
+													System.out.println("Screen Minimized");
+													if((swidth >= 700 && sheight >= 500) && (swidth< 900 && (sheight < 600 || sheight > 600))) {
+														p.jve.setBounds(0, 0, 350, 450);
+														p.page1.setBounds(0,0,300,400);
+														panel.remove(util);
+														panel.add(p.maximize);
+														p.maximize.setBounds(300, 160, 50, 40);
+														panel.remove(p.edit);
+														panel.remove(p.save);
+														panel.remove(p.cut);
+														panel.remove(p.paste);
+														panel.remove(p.copy);
+														
+													}else if((swidth >= 900 && sheight >= 600) && (swidth< 1200 && (sheight < 800 || sheight > 800)) ) {
+													p.jve.setBounds(0, 0, 450, 550);
+													p.page1.setBounds(0,0,400,500);
+													panel.remove(util);
+													panel.add(p.maximize);
+													p.maximize.setBounds(400, 160, 50, 40);
+													panel.remove(p.edit);
+													panel.remove(p.save);
+													panel.remove(p.cut);
+													panel.remove(p.paste);
+													panel.remove(p.copy);
+													}else if((swidth >= 1200 && sheight >= 800) && (swidth< 1440 && (sheight > 900 || sheight < 900))) {
+													p.jve.setBounds(0, 0, 650, 720);
+													p.page1.setBounds(0,0,600,670);
+													panel.remove(util);
+													panel.add(p.maximize);
+													p.maximize.setBounds(600, 160, 50, 40);
+													panel.remove(p.edit);
+													panel.remove(p.save);
+													panel.remove(p.cut);
+													panel.remove(p.paste);
+													panel.remove(p.copy);
+													}else if((swidth >= 1440 && sheight >=900)) {
+													p.jve.setBounds(0, 0, 750, 800);
+													p.page1.setBounds(0,0,700,750);
+													panel.remove(util);
+													panel.add(p.maximize);
+													p.maximize.setBounds(700, 300, 50, 40);
+													panel.remove(p.edit);
+													panel.remove(p.save);
+													
+													}
+												}
+											}
+											static class maximizescreen implements ActionListener{
+												public void actionPerformed (ActionEvent e) {
+													System.out.println("Screen Maximized");
+													if((swidth >= 700 && sheight >= 500) && (swidth< 900 && (sheight < 600 || sheight > 600))) {
+													p.jve.setBounds(0, 0, 700, 500);
+													p.page1.setBounds(195,60,300,400);
+													panel.add(util);
+													panel.remove(p.maximize);
+													panel.add(p.edit);
+													panel.add(p.save);
+													panel.add(p.cut);
+													panel.add(p.paste);
+													panel.add(p.copy);
+													
+													}else if((swidth >= 900 && sheight >= 600) && (swidth< 1200 && (sheight < 800 || sheight > 800)) ) {
+													p.jve.setBounds(0, 0, 900, 600);
+													p.page1.setBounds(250,60,400,500);
+													panel.add(util);
+													panel.remove(p.maximize);
+													panel.add(p.edit);
+													panel.add(p.save);
+													panel.add(p.cut);
+													panel.add(p.paste);
+													panel.add(p.copy);
+													}else if((swidth >= 1200 && sheight >= 800) && (swidth< 1440 && (sheight > 900 || sheight < 900))) {
+													p.jve.setBounds(0, 0, 1200, 800);
+													p.page1.setBounds(300,96,600,670);
+													panel.add(util);
+													panel.remove(p.maximize);
+													panel.add(p.edit);
+													panel.add(p.save);
+													panel.add(p.cut);
+													panel.add(p.paste);
+													panel.add(p.copy);
+													}else if((swidth >= 1440 && sheight >=900)) {
+													p.jve.setBounds(0, 0, 1440, 900);
+													p.page1.setBounds(370,100,700,750);
+													panel.add(util);
+													panel.remove(p.maximize);
+													panel.add(p.edit);
+													panel.add(p.save);
+													}
+													
+												}
+											}
+											//This creates a sepertate window for special characters and adds the actionlistener 
+											static class specialCharacters implements ActionListener{
+												public void actionPerformed (ActionEvent e) {
+													System.out.println("Opened Special Characters");
+													
+													GridLayout grid = new GridLayout(7,10);
+													JFrame frame = new JFrame("Special Characters");
+													frame.setVisible(true);
+													frame.setBounds(0, 0, 500, 400);
+													JTabbedPane tabbedPane = new JTabbedPane();
+													frame.add(tabbedPane);
+													JPanel tab = new JPanel();
+													tab.setLayout(grid);
+													tabbedPane.addTab("Accents",null, tab,
+													                  "Does nothing");
+													tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
+													tab.setBackground(p.p1);
+													
+													tab.add(a1);
+													tab.add(a2);
+													tab.add(a3);
+													tab.add(a4);
+													tab.add(a5);
+													tab.add(a6);
+													tab.add(a7);
+													tab.add(a8);
+													tab.add(a9);
+													tab.add(a10);
+													tab.add(a11);
+													tab.add(a12);
+													tab.add(a13);
+													tab.add(a14);
+													tab.add(a15);
+													tab.add(a16);
+													tab.add(a17);
+													tab.add(a18);
+													tab.add(a19);
+													tab.add(a20);
+													tab.add(a21);
+													tab.add(a22);
+													tab.add(a23);
+													tab.add(a24);
+													tab.add(a25);
+													tab.add(a26);
+													tab.add(a27);
+													tab.add(a28);
+													tab.add(a29);
+													tab.add(a30);
+													tab.add(a31);
+													tab.add(a32);
+													tab.add(a33);
+													tab.add(a34);
+													tab.add(a35);
+													tab.add(a36);
+													tab.add(a37);
+													tab.add(a38);
+													tab.add(a39);
+													tab.add(a40);
+													tab.add(a41);
+													tab.add(a42);
+													tab.add(a43);
+													tab.add(a44);
+													tab.add(a45);
+													tab.add(a46);
+													tab.add(a47);
+													tab.add(a48);
+													tab.add(a49);
+													tab.add(a50);
+													tab.add(a51);
+													tab.add(a52);
+													tab.add(a53);
+													tab.add(a54);
+													tab.add(a55);
+													tab.add(a56);
+													tab.add(a57);
+													tab.add(a58);
+													tab.add(a59);
+													tab.add(a60);
+													tab.add(a61);
+													tab.add(a62);
+													tab.add(a63);
+													tab.add(a64);
+													tab.add(a65);
+													tab.add(a66);
+													tab.add(a67);
+													tab.add(a68);
+													tab.add(a69);
+													
+													a1.addActionListener(new insertchara1());
+													a2.addActionListener(new insertchara2());
+													a3.addActionListener(new insertchara3());
+													a4.addActionListener(new insertchara4());
+													a5.addActionListener(new insertchara5());
+													a6.addActionListener(new insertchara6());
+													a7.addActionListener(new insertchara7());
+													a8.addActionListener(new insertchara8());
+													a9.addActionListener(new insertchara9());
+													a10.addActionListener(new insertchara10());
+													a11.addActionListener(new insertchara11());
+													a12.addActionListener(new insertchara12());
+													a13.addActionListener(new insertchara13());
+													a14.addActionListener(new insertchara14());
+													a15.addActionListener(new insertchara15());
+													a16.addActionListener(new insertchara16());
+													a17.addActionListener(new insertchara17());
+													a18.addActionListener(new insertchara18());
+													a19.addActionListener(new insertchara19());
+													a20.addActionListener(new insertchara20());
+													a21.addActionListener(new insertchara21());
+													a22.addActionListener(new insertchara22());
+													a23.addActionListener(new insertchara23());
+													a24.addActionListener(new insertchara24());
+													a25.addActionListener(new insertchara25());
+													a26.addActionListener(new insertchara26());
+													a27.addActionListener(new insertchara27());
+													a28.addActionListener(new insertchara28());
+													a29.addActionListener(new insertchara29());
+													a30.addActionListener(new insertchara30());
+													a31.addActionListener(new insertchara31());
+													a32.addActionListener(new insertchara32());
+													a33.addActionListener(new insertchara33());
+													a34.addActionListener(new insertchara34());
+													a35.addActionListener(new insertchara35());
+													a36.addActionListener(new insertchara36());
+													a37.addActionListener(new insertchara37());
+													a38.addActionListener(new insertchara38());
+													a39.addActionListener(new insertchara39());
+													a40.addActionListener(new insertchara40());
+													a41.addActionListener(new insertchara41());
+													a42.addActionListener(new insertchara42());
+													a43.addActionListener(new insertchara43());
+													a44.addActionListener(new insertchara44());
+													a45.addActionListener(new insertchara45());
+													a46.addActionListener(new insertchara46());
+													a47.addActionListener(new insertchara47());
+													a48.addActionListener(new insertchara48());
+													a49.addActionListener(new insertchara49());
+													a50.addActionListener(new insertchara50());
+													a51.addActionListener(new insertchara51());
+													a52.addActionListener(new insertchara52());
+													a53.addActionListener(new insertchara53());
+													a54.addActionListener(new insertchara54());
+													a55.addActionListener(new insertchara55());
+													a56.addActionListener(new insertchara56());
+													a57.addActionListener(new insertchara57());
+													a58.addActionListener(new insertchara58());
+													a59.addActionListener(new insertchara59());
+													a60.addActionListener(new insertchara60());
+													a61.addActionListener(new insertchara61());
+													a62.addActionListener(new insertchara62());
+													a63.addActionListener(new insertchara63());
+													a64.addActionListener(new insertchara64());
+													a65.addActionListener(new insertchara65());
+													a66.addActionListener(new insertchara66());
+													a67.addActionListener(new insertchara67());
+													a68.addActionListener(new insertchara68());
+													a69.addActionListener(new insertchara69());
+													
+													JPanel tab2 = new JPanel();
+													tab2.setLayout(grid);
+													tabbedPane.addTab("Currency",null, tab2,
+													                  "Does nothing");
+													tabbedPane.setMnemonicAt(0, KeyEvent.VK_2);
+													tab2.setBackground(p.p1);
+													tab2.add(c1);
+													tab2.add(c2);
+													tab2.add(c3);
+													tab2.add(c4);
+													tab2.add(c5);
+													tab2.add(c6);
+													tab2.add(c7);
+													tab2.add(c8);
+													
+													c1.addActionListener(new insertcharc1());
+													c2.addActionListener(new insertcharc2());
+													c3.addActionListener(new insertcharc3());
+													c4.addActionListener(new insertcharc4());
+													c5.addActionListener(new insertcharc5());
+													c6.addActionListener(new insertcharc6());
+													c7.addActionListener(new insertcharc7());
+													c8.addActionListener(new insertcharc8());
+													
+													JPanel tab3 = new JPanel();
+													tab3.setLayout(grid);
+													tabbedPane.addTab("Math",null, tab3,
+													                  "Does nothing");
+													tabbedPane.setMnemonicAt(0, KeyEvent.VK_3);
+													
+													tab3.setBackground(p.p1);
+													tab3.add(m1);
+													tab3.add(m2);
+													tab3.add(m3);
+													tab3.add(m4);
+													tab3.add(m5);
+													
+													tab3.add(m16);
+													tab3.add(m17);
+													tab3.add(m18);
+													tab3.add(m19);
+													tab3.add(m20);
+													tab3.add(m21);
+													tab3.add(m22);
+													tab3.add(m23);
+													tab3.add(m24);
+													tab3.add(m25);
+													tab3.add(m26);
+													tab3.add(m27);
+													tab3.add(m28);
+													tab3.add(m29);
+													tab3.add(m30);
+													tab3.add(m31);
+													tab3.add(m32);
+													tab3.add(m33);
+													tab3.add(m34);
+													
+													m1.addActionListener(new insertcharm1());
+													m2.addActionListener(new insertcharm2());
+													m3.addActionListener(new insertcharm3());
+													m4.addActionListener(new insertcharm4());
+													m5.addActionListener(new insertcharm5());
+													
+													m16.addActionListener(new insertcharm16());
+													m17.addActionListener(new insertcharm17());
+													m18.addActionListener(new insertcharm18());
+													m19.addActionListener(new insertcharm19());
+													m20.addActionListener(new insertcharm20());
+													m21.addActionListener(new insertcharm21());
+													m22.addActionListener(new insertcharm22());
+													m23.addActionListener(new insertcharm23());
+													m24.addActionListener(new insertcharm24());
+													m25.addActionListener(new insertcharm25());
+													m26.addActionListener(new insertcharm26());
+													m27.addActionListener(new insertcharm27());
+													m28.addActionListener(new insertcharm28());
+													m29.addActionListener(new insertcharm29());
+													m30.addActionListener(new insertcharm30());
+													m31.addActionListener(new insertcharm31());
+													m32.addActionListener(new insertcharm32());
+													m33.addActionListener(new insertcharm33());
+													m34.addActionListener(new insertcharm34());
+													
+													
+													
+													JPanel tab4 = new JPanel();
+													tab4.setLayout(grid);
+													tabbedPane.addTab("Other",null, tab4,
+													                  "Does nothing");
+													tabbedPane.setMnemonicAt(0, KeyEvent.VK_4);
+												}
+											}
+											
+											
+											
+											
+											//All of the code from here will be nothing but setting that special character exponent to the page if user calls it 
+											static class insertchara1 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "à", null);
+														System.out.println("à");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara2 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "è", null);
+														System.out.println("è");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara3 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ì", null);
+														System.out.println("ì");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara4 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ò", null);
+														System.out.println("ò");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara5 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ù", null);
+														System.out.println("ù");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara6 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "á", null);
+														System.out.println("á");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara7 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "é", null);
+														System.out.println("é");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara8 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "í", null);
+														System.out.println("í");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara9 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ó", null);
+														System.out.println("ó");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara10 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ú", null);
+														System.out.println("ú");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara11 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ý", null);
+														System.out.println("ý");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara12 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "â", null);
+														System.out.println("â");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara13 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ê", null);
+														System.out.println("ê");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara14 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "î", null);
+														System.out.println("î");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara15 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ô", null);
+														System.out.println("ô");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara16 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "û", null);
+														System.out.println("û");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara17 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ã", null);
+														System.out.println("ã");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara18 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ñ", null);
+														System.out.println("ñ");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara19 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "õ", null);
+														System.out.println("õ");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara20 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ä", null);
+														System.out.println("ä");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara21 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ë", null);
+														System.out.println("ë");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara22 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ï", null);
+														System.out.println("ï");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara23 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ö", null);
+														System.out.println("ö");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara24 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ü", null);
+														System.out.println("ü");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara25 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ÿ", null);
+														System.out.println("ÿ");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara26 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "À", null);
+														System.out.println("À");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara27 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "È", null);
+														System.out.println("È");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara28 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Ì", null);
+														System.out.println("Ì");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara29 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Ò", null);
+														System.out.println("Ò");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara30 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Ù", null);
+														System.out.println("Ù");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara31 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Á", null);
+														System.out.println("Á");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara32 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "É", null);
+														System.out.println("É");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara33 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Í", null);
+														System.out.println("Í");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara34 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Ó", null);
+														System.out.println("Ó");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara35 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Ú", null);
+														System.out.println("Ú");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara36 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Ý", null);
+														System.out.println("Ý");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara37 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Â", null);
+														System.out.println("Â");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara38 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Ê", null);
+														System.out.println("Ê");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara39 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Î", null);
+														System.out.println("Î");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara40 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Ô", null);
+														System.out.println("Ô");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara41 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Û", null);
+														System.out.println("Û");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara42 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Ã", null);
+														System.out.println("Ã");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara43 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Ñ", null);
+														System.out.println("Ñ");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara44 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Õ", null);
+														System.out.println("Õ");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara45 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Ä", null);
+														System.out.println("Ä");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara46 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Ë", null);
+														System.out.println("Ë");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara47 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Ï", null);
+														System.out.println("Ï");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara48 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Ö", null);
+														System.out.println("Ö");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara49 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Ü", null);
+														System.out.println("Ü");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara50 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Ÿ", null);
+														System.out.println("Ÿ");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara51 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Ç", null);
+														System.out.println("Ç");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara52 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ç", null);
+														System.out.println("ç");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara53 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Œ", null);
+														System.out.println("Œ");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara54 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "œ", null);
+														System.out.println("œ");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara55 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ß", null);
+														System.out.println("ß");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara56 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Ø", null);
+														System.out.println("Ø");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara57 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ø", null);
+														System.out.println("ø");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara58 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Å", null);
+														System.out.println("Å");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara59 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "å", null);
+														System.out.println("å");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara60 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Æ", null);
+														System.out.println("Æ");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara61 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "æ", null);
+														System.out.println("æ");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara62 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Þ", null);
+														System.out.println("Þ");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara63 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "þ", null);
+														System.out.println("þ");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara64 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Ð", null);
+														System.out.println("Ð");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara65 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ð", null);
+														System.out.println("ð");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara66 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Š", null);
+														System.out.println("Š");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara67 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "š", null);
+														System.out.println("š");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara68 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "Ž", null);
+														System.out.println("Ž");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchara69 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ž", null);
+														System.out.println("ž");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharc1 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "¤", null);
+														System.out.println("¤");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharc2 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "£", null);
+														System.out.println("£");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharc3 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "€", null);
+														System.out.println("€");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharc4 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "$", null);
+														System.out.println("$");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharc5 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "¢", null);
+														System.out.println("¢");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharc6 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "¥", null);
+														System.out.println("¥");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharc7 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "P", null);
+														System.out.println("P");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharc8 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ƒ", null);
+														System.out.println("ƒ");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm1 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "±", null);
+														System.out.println("±");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm2 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "˜", null);
+														System.out.println("˜");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm3 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "=", null);
+														System.out.println("=");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm4 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "=", null);
+														System.out.println("=");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm5 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "v", null);
+														System.out.println("v");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm6 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "n", null);
+														System.out.println("n");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm35 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "°", null);
+														System.out.println("°");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm7 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "¹", null);
+														System.out.println("¹");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm8 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "²", null);
+														System.out.println("²");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm9 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "³", null);
+														System.out.println("³");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm10 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "4", null);
+														System.out.println("4");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm11 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "5", null);
+														System.out.println("5");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm12 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "6", null);
+														System.out.println("6");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm13 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "7", null);
+														System.out.println("7");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm14 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "8", null);
+														System.out.println("8");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm15 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "?", null);
+														System.out.println("?");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+								
+											static class insertcharm16 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "a", null);
+														System.out.println("a");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm17 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ß", null);
+														System.out.println("ß");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm18 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "G", null);
+														System.out.println("G");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm19 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "d", null);
+														System.out.println("d");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm20 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "e", null);
+														System.out.println("e");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm21 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "T", null);
+														System.out.println("T");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm22 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "p", null);
+														System.out.println("p");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm23 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "µ", null);
+														System.out.println("µ");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm24 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "S", null);
+														System.out.println("S");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm25 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "s", null);
+														System.out.println("s");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm26 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "t", null);
+														System.out.println("t");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm27 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "F", null);
+														System.out.println("F");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm28 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "f", null);
+														System.out.println("f");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm29 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "O", null);
+														System.out.println("O");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm30 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "°", null);
+														System.out.println("°");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm31 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "8", null);
+														System.out.println("8");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm32 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "ƒ", null);
+														System.out.println("ƒ");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm33 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "?", null);
+														System.out.println("?");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertcharm34 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "?", null);
+														System.out.println("?");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											
+											//all special characters end here
+											
+											//exponent window is created here and set the action listener to the buttons 
+											static class exponents implements ActionListener{
+												public void actionPerformed (ActionEvent e) {
+													System.out.println("Opened Exponents");
+													
+													GridLayout grid = new GridLayout(7,10);
+													JFrame frame = new JFrame("Exponents");
+													frame.setVisible(true);
+													frame.setBounds(0, 0, 300, 200);
+													JPanel Pane = new JPanel();
+													frame.add(Pane);
+													Pane.setBackground(p.p1);
+													Pane.setLayout(grid);
+													Pane.add(e1);
+													Pane.add(e2);
+													Pane.add(e3);
+													Pane.add(e4);
+													Pane.add(e5);
+													Pane.add(e6);
+													Pane.add(e7);
+													Pane.add(e8);
+													Pane.add(e9);
+													Pane.add(e10);
+													Pane.add(e11);
+													
+													e1.addActionListener(new insertchare1());
+													e2.addActionListener(new insertchare2());
+													e3.addActionListener(new insertchare3());
+													e4.addActionListener(new insertchare4());
+													e5.addActionListener(new insertchare5());
+													e6.addActionListener(new insertchare6());
+													e7.addActionListener(new insertchare7());
+													e8.addActionListener(new insertchare8());
+													e9.addActionListener(new insertchare9());
+													e10.addActionListener(new insertchare10());
+													e11.addActionListener(new insertchare11());
+												
+
+													
+													
+												}
+											}
+											
+											
+											//here the code is meant to display the exponent to the page if user calls it 
+											static class insertchare1 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "n", null);
+														System.out.println("n");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchare2 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "°", null);
+														System.out.println("°");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchare3 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "¹", null);
+														System.out.println("¹");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchare4 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "²", null);
+														System.out.println("²");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchare5 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "³", null);
+														System.out.println("³");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchare6 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "4", null);
+														System.out.println("4");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchare7 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "5", null);
+														System.out.println("5");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchare8 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "6", null);
+														System.out.println("6");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchare9 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "7", null);
+														System.out.println("7");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchare10 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "8", null);
+														System.out.println("8");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											static class insertchare11 implements ActionListener{
+												public void actionPerformed(ActionEvent e) {
+													
+													try {
+														
+														p.page1.getDocument().insertString(p.page1.getCaretPosition(), "?", null);
+														System.out.println("?");
+														
+													} catch (BadLocationException e1) {
+														// TODO Auto-generated catch block
+														e1.printStackTrace();
+				
+														
+													}
+												}
+											}
+											
+											static class Scan implements ActionListener{
+												public void actionPerformed (ActionEvent e) {
+													try {
+														Process p = Runtime.getRuntime().exec("C:\\Virtual Journal\\Scanner\\Scanner");
+														
+													}catch (IOException i) {
+														i.printStackTrace();
+													}
+												}
+											}
+											
+											
+							}						
+
+	
+
