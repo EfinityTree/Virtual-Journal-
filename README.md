@@ -36,3 +36,4 @@ Current Features:
 Visit our website: EfinityTree.com
 Download and test out our software!
 Create something that you would love to take your notes on!
+NOTE: IGNORE THE .DS_store
